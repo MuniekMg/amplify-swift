@@ -129,7 +129,10 @@ class DefaultStorageMultipartUploadClient: StorageMultipartUploadClient {
                     let preSignedURL = try await serviceProxy.preSignedURLBuilder.getPreSignedURL(
                         key: self.key,
                         signingOperation: operation,
+<<<<<<< HEAD
                         accelerate: nil,
+=======
+>>>>>>> 94c7ed624 (chore(Storage): Simplify Storage.getURL)
                         expires: nil
                     )
                     startUploadPart(partialFileURL, preSignedURL)

@@ -68,7 +68,6 @@ protocol AWSS3StorageServiceBehaviour {
     func delete(serviceKey: String,
                 onEvent: @escaping StorageServiceDeleteEventHandler)
 }
-
 extension AWSS3StorageServiceBehaviour {
     func getPreSignedURL(serviceKey: String,
                          expires: Int,
