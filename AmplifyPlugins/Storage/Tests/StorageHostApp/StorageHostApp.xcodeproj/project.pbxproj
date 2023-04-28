@@ -9,14 +9,12 @@
 /* Begin PBXBuildFile section */
 		0311113528EBED6500D58441 /* Tests.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 0311113428EBED6500D58441 /* Tests.xcconfig */; };
 		031BC3F328EC9B2C0047B2E8 /* AppIcon.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 031BC3F228EC9B2C0047B2E8 /* AppIcon.xcassets */; };
-<<<<<<< HEAD
 		565DF1702953BAEA000DCCF7 /* AWSS3StoragePluginAccelerateIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565DF16F2953BAEA000DCCF7 /* AWSS3StoragePluginAccelerateIntegrationTests.swift */; };
 		56B54B1B29FC02800000DF7D /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 5E0E3B98C2BA2686B15174B0 /* awsconfiguration.json */; };
 		56B54B1C29FC02810000DF7D /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 5E0E3B98C2BA2686B15174B0 /* awsconfiguration.json */; };
-=======
->>>>>>> a24a3865a (chore(storage): Removing reference to awsconfiguration.json)
 		56B54B1D29FC02830000DF7D /* amplifyconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = D5C0382101A0E23943FDF4CB /* amplifyconfiguration.json */; };
 		56B54B1E29FC02840000DF7D /* amplifyconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = D5C0382101A0E23943FDF4CB /* amplifyconfiguration.json */; };
+		56043E9329FC4D33003E3424 /* amplifyconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = D5C0382101A0E23943FDF4CB /* amplifyconfiguration.json */; };
 		681DFEB228E748270000C36A /* AsyncTesting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 681DFEAF28E748270000C36A /* AsyncTesting.swift */; };
 		681DFEB328E748270000C36A /* AsyncExpectation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 681DFEB028E748270000C36A /* AsyncExpectation.swift */; };
 		681DFEB428E748270000C36A /* XCTestCase+AsyncTesting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 681DFEB128E748270000C36A /* XCTestCase+AsyncTesting.swift */; };
@@ -70,14 +68,8 @@
 		0311113428EBED6500D58441 /* Tests.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Tests.xcconfig; sourceTree = "<group>"; };
 		0311113828EBEEA700D58441 /* Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Base.xcconfig; sourceTree = "<group>"; };
 		031BC3F228EC9B2C0047B2E8 /* AppIcon.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = AppIcon.xcassets; sourceTree = "<group>"; };
-<<<<<<< HEAD
-<<<<<<< HEAD
 		565DF16F2953BAEA000DCCF7 /* AWSS3StoragePluginAccelerateIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWSS3StoragePluginAccelerateIntegrationTests.swift; sourceTree = "<group>"; };
-=======
 		5E0E3B98C2BA2686B15174B0 /* awsconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = awsconfiguration.json; sourceTree = "<group>"; };
->>>>>>> cdbc8ef72 (chore(storage): Simplifying amplifyconfig.json setup)
-=======
->>>>>>> a24a3865a (chore(storage): Removing reference to awsconfiguration.json)
 		681DFEAF28E748270000C36A /* AsyncTesting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncTesting.swift; sourceTree = "<group>"; };
 		681DFEB028E748270000C36A /* AsyncExpectation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncExpectation.swift; sourceTree = "<group>"; };
 		681DFEB128E748270000C36A /* XCTestCase+AsyncTesting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XCTestCase+AsyncTesting.swift"; sourceTree = "<group>"; };
@@ -373,6 +365,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				031BC3F328EC9B2C0047B2E8 /* AppIcon.xcassets in Resources */,
+				56043E9329FC4D33003E3424 /* amplifyconfiguration.json in Resources */,
 				0311113528EBED6500D58441 /* Tests.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -381,7 +374,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				56B54B1D29FC02830000DF7D /* amplifyconfiguration.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -389,7 +381,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				56B54B1E29FC02840000DF7D /* amplifyconfiguration.json in Resources */,
 				97914BBB29557A52002000EA /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
