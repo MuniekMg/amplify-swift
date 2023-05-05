@@ -48,6 +48,8 @@ protocol AWSS3StorageServiceBehaviour {
                          expires: Int,
                          onEvent: @escaping StorageServiceGetPreSignedURLEventHandler)
 
+    func validateObjectExistence(serviceKey: String) async throws
+
     func upload(serviceKey: String,
                 uploadSource: UploadSource,
                 contentType: String?,
