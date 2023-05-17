@@ -21,7 +21,6 @@ class GraphQLLazyLoadBaseTest: XCTestCase {
     
     override func tearDown() async throws {
         await Amplify.reset()
-        try await Task.sleep(seconds: 1)
     }
     
     func setupConfig() {
