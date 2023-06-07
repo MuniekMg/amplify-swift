@@ -27,7 +27,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - uses: actions/cache@v88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
+    - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
       with:
         path: .build
         key: ${{ runner.os }}-spm-${{ hashFiles('${{ inputs.project_path }}/**/Package.resolved') }}
