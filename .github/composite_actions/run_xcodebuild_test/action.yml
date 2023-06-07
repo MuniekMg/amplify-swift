@@ -30,7 +30,7 @@ runs:
     - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
       with:
         path: .build
-        key: ${{ runner.os }}-spm-${{ hashFiles(format('{0}/**/Package.resolved'), inputs.project_path) }}
+        key: ${{ runner.os }}-spm-${{ hashFiles(format('{0}/**/Package.resolved', inputs.project_path)) }}
         restore-keys: |
           ${{ runner.os }}-spm-
 
