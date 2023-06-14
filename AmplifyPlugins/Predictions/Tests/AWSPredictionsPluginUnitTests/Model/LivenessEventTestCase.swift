@@ -133,8 +133,49 @@ final class LivenessEventTestCase: XCTestCase {
         )
     }
 
+    func test_livenessEvent_videoEvent() throws {
+        let videoEvent = VideoEvent(
+            chunk: .init(),
+            timestamp: .max
+        )
+
+        let livenessEvent = try LivenessEvent.video(
+            event: videoEvent
+        )
+
+        XCTAssertEqual(livenessEvent.eventTypeHeader, "VideoEvent")
+
+        let decodedPayload = try JSONDecoder().decode(
+            LivenessVideoEvent.self,
+            from: livenessEvent.payload
+        )
+
+        let expectedPayload = LivenessVideoEvent(
+            timestampMillis: videoEvent.timestamp,
+            videoChunk: videoEvent.chunk
+        )
+
+        XCTAssertEqual(decodedPayload, expectedPayload)
+
+        XCTAssertEqual(
+            livenessEvent.debugDescription,
+            """
+            LivenessEvent<VideoEvent>(
+                payload: 56 bytes,
+                eventKind: .client(.video),
+                eventTypeHeader: VideoEvent
+            )
+            """
+        )
+    }
 }
 
+extension LivenessVideoEvent: Equatable {
+    public static func == (lhs: LivenessVideoEvent, rhs: LivenessVideoEvent) -> Bool {
+        lhs.timestampMillis == rhs.timestampMillis
+        && lhs.videoChunk == rhs.videoChunk
+    }
+}
 
 extension LivenessEvent: Equatable where T: Equatable & Codable {
     public static func == (lhs: Self, rhs: Self) -> Bool {

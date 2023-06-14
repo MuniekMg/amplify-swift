@@ -126,7 +126,7 @@ final class ModelPublicInitTestCase: XCTestCase {
         _ = ovalMatchChallenge
     }
 
-    func test_BoundingBox() {
+    func test_livenessSessionBoundingBox() {
         let (x, y, width, height) = (1.0, 2.2, 5.0, 10.1)
         let bb = FaceLivenessSession.BoundingBox(
             x: x,
@@ -138,5 +138,19 @@ final class ModelPublicInitTestCase: XCTestCase {
         XCTAssertEqual(bb.width, width)
         XCTAssertEqual(bb.x, x)
         XCTAssertEqual(bb.y, y)
+    }
+
+    func test_boundingBox() {
+        let (x, y, width, height) = (1.0, 2.2, 5.0, 10.1)
+        let bb = BoundingBox(
+            width: width,
+            height: height,
+            left: x,
+            top: y
+        )
+        XCTAssertEqual(bb.height, height)
+        XCTAssertEqual(bb.width, width)
+        XCTAssertEqual(bb.left, x)
+        XCTAssertEqual(bb.top, y)
     }
 }
