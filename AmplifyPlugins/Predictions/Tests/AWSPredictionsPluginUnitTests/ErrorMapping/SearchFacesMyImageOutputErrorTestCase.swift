@@ -8,11 +8,11 @@
 import XCTest
 @testable import AWSPredictionsPlugin
 import Amplify
-import AWSTextract
+import AWSRekognition
 
-final class DetectDocumentTextOutputErrorTestCase: XCTestCase {
+final class SearchFacesMyImageOutputErrorTestCase: XCTestCase {
 
-    func test_detectDocumentTextOutputError_accessDenied() {
+    func test_searchFacesByImage_accessDenied() {
         assertCatchVariations(
             for: .accessDeniedException(.init()),
             expecting: .accessDenied,
@@ -28,14 +28,61 @@ final class DetectDocumentTextOutputErrorTestCase: XCTestCase {
         )
     }
 
+    func test_detectDocumentTextOutputError_imageTooLarge() throws {
+        let underlyingServiceError = try ImageTooLargeException(
+            httpResponse: .init(
+                headers: .init(), body: .data(nil), statusCode: .badRequest
+            )
+        )
+        let sdkError = SearchFacesByImageOutputError.imageTooLargeException(underlyingServiceError)
+        let mappedError = ServiceErrorMapping.searchFacesByImage.map(sdkError)
+
+        do { throw mappedError }
+        catch let error as PredictionsError {
+            guard case .service(let serviceError) = error else {
+                return XCTFail("Expected PredictionsError.service")
+            }
+            XCTAssertEqual(
+                serviceError.httpStatusCode,
+                underlyingServiceError._statusCode?.rawValue
+            )
+        } catch {
+            XCTFail("Expected PredictionsError")
+        }
+    }
+
+
+    func test_detectDocumentTextOutputError_invalidImageFormat() throws {
+        let underlyingServiceError = try InvalidImageFormatException(
+            httpResponse: .init(
+                headers: .init(), body: .data(nil), statusCode: .badRequest
+            )
+        )
+        let sdkError = SearchFacesByImageOutputError.invalidImageFormatException(underlyingServiceError)
+        let mappedError = ServiceErrorMapping.searchFacesByImage.map(sdkError)
+
+        do { throw mappedError }
+        catch let error as PredictionsError {
+            guard case .service(let serviceError) = error else {
+                return XCTFail("Expected PredictionsError.service")
+            }
+            XCTAssertEqual(
+                serviceError.httpStatusCode,
+                underlyingServiceError._statusCode?.rawValue
+            )
+        } catch {
+            XCTFail("Expected PredictionsError")
+        }
+    }
+
     func test_detectDocumentTextOutputError_invalidParameterException() throws {
         let underlyingServiceError = try InvalidParameterException(
             httpResponse: .init(
                 headers: .init(), body: .data(nil), statusCode: .badRequest
             )
         )
-        let sdkError = DetectDocumentTextOutputError.invalidParameterException(underlyingServiceError)
-        let mappedError = ServiceErrorMapping.detectDocumentText.map(sdkError)
+        let sdkError = SearchFacesByImageOutputError.invalidParameterException(underlyingServiceError)
+        let mappedError = ServiceErrorMapping.searchFacesByImage.map(sdkError)
 
         do { throw mappedError }
         catch let error as PredictionsError {
@@ -57,8 +104,8 @@ final class DetectDocumentTextOutputErrorTestCase: XCTestCase {
                 headers: .init(), body: .data(nil), statusCode: .badRequest
             )
         )
-        let sdkError = DetectDocumentTextOutputError.invalidS3ObjectException(underlyingServiceError)
-        let mappedError = ServiceErrorMapping.detectDocumentText.map(sdkError)
+        let sdkError = SearchFacesByImageOutputError.invalidS3ObjectException(underlyingServiceError)
+        let mappedError = ServiceErrorMapping.searchFacesByImage.map(sdkError)
 
         do { throw mappedError }
         catch let error as PredictionsError {
@@ -80,8 +127,8 @@ final class DetectDocumentTextOutputErrorTestCase: XCTestCase {
                 headers: .init(), body: .data(nil), statusCode: .badRequest
             )
         )
-        let sdkError = DetectDocumentTextOutputError.provisionedThroughputExceededException(underlyingServiceError)
-        let mappedError = ServiceErrorMapping.detectDocumentText.map(sdkError)
+        let sdkError = SearchFacesByImageOutputError.provisionedThroughputExceededException(underlyingServiceError)
+        let mappedError = ServiceErrorMapping.searchFacesByImage.map(sdkError)
 
         do { throw mappedError }
         catch let error as PredictionsError {
@@ -97,74 +144,14 @@ final class DetectDocumentTextOutputErrorTestCase: XCTestCase {
         }
     }
 
-    func test_detectDocumentTextOutputError_badDocument() throws {
-        let underlyingServiceError = try BadDocumentException(
-            httpResponse: .init(
-                headers: .init(), body: .data(nil), statusCode: .badRequest
-            )
+    func test_detectDocumentTextOutputError_resourceNotFound() throws {
+        assertCatchVariations(
+            for: .resourceNotFoundException(.init()),
+            expecting: .resourceNotFound,
+            label: "resourceNotFound"
         )
-        let sdkError = DetectDocumentTextOutputError.badDocumentException(underlyingServiceError)
-        let mappedError = ServiceErrorMapping.detectDocumentText.map(sdkError)
-
-        do { throw mappedError }
-        catch let error as PredictionsError {
-            guard case .service(let serviceError) = error else {
-                return XCTFail("Expected PredictionsError.service")
-            }
-            XCTAssertEqual(
-                serviceError.httpStatusCode,
-                underlyingServiceError._statusCode?.rawValue
-            )
-        } catch {
-            XCTFail("Expected PredictionsError")
-        }
     }
 
-    func test_detectDocumentTextOutputError_documentTooLarge() throws {
-        let underlyingServiceError = try DocumentTooLargeException(
-            httpResponse: .init(
-                headers: .init(), body: .data(nil), statusCode: .badRequest
-            )
-        )
-        let sdkError = DetectDocumentTextOutputError.documentTooLargeException(underlyingServiceError)
-        let mappedError = ServiceErrorMapping.detectDocumentText.map(sdkError)
-
-        do { throw mappedError }
-        catch let error as PredictionsError {
-            guard case .service(let serviceError) = error else {
-                return XCTFail("Expected PredictionsError.service")
-            }
-            XCTAssertEqual(
-                serviceError.httpStatusCode,
-                underlyingServiceError._statusCode?.rawValue
-            )
-        } catch {
-            XCTFail("Expected PredictionsError")
-        }
-    }
-
-    func test_detectDocumentTextOutputError_unsupportedDocument() throws {
-        let underlyingServiceError = try UnsupportedDocumentException(
-            httpResponse: .init(
-                headers: .init(), body: .data(nil), statusCode: .badRequest
-            )
-        )
-        let sdkError = DetectDocumentTextOutputError.unsupportedDocumentException(underlyingServiceError)
-        let mappedError = ServiceErrorMapping.detectDocumentText.map(sdkError)
-
-        do { throw mappedError }
-        catch let error as PredictionsError {
-            guard case .service(let serviceError) = error else {
-                return XCTFail("Expected PredictionsError.service")
-            }
-            XCTAssertEqual(
-                serviceError.httpStatusCode,
-                underlyingServiceError._statusCode?.rawValue
-            )
-        } catch {
-            XCTFail("Expected PredictionsError")
-        }
-    }
 
     func test_detectDocumentTextOutputError_throttlingException() {
         assertCatchVariations(
@@ -176,7 +163,7 @@ final class DetectDocumentTextOutputErrorTestCase: XCTestCase {
 
 
     func test_detectDocumentTextOutputError_unknown() {
-        let underlyingError = DetectDocumentTextOutputError
+        let underlyingError = SearchFacesByImageOutputError
             .unknown(.init(httpResponse: .init(body: .none, statusCode: .unauthorized)))
 
         assertCatchVariations(
@@ -192,11 +179,11 @@ final class DetectDocumentTextOutputErrorTestCase: XCTestCase {
 
 
     private func assertCatchVariations(
-        for sdkError: DetectDocumentTextOutputError,
+        for sdkError: SearchFacesByImageOutputError,
         expecting expectedServiceError: PredictionsError.ServiceError,
         label: String
     ) {
-        let predictionsError = ServiceErrorMapping.detectDocumentText.map(sdkError)
+        let predictionsError = ServiceErrorMapping.searchFacesByImage.map(sdkError)
         let unexpected: (Error) -> String = {
             "Expected PredictionsError.service(.\(label), received \($0)"
         }
@@ -228,4 +215,5 @@ final class DetectDocumentTextOutputErrorTestCase: XCTestCase {
             }
         }
     }
+
 }
