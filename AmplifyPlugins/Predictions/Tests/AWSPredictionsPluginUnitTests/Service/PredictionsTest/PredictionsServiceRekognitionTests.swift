@@ -8,8 +8,8 @@
 import XCTest
 import AWSRekognition
 import CoreML
-import Amplify
 import Foundation
+@testable import Amplify
 @testable import AWSPredictionsPlugin
 
 // swiftlint:disable file_length type_body_length
@@ -353,6 +353,124 @@ class PredictionsServiceRekognitionTests: XCTestCase {
 
         do {
             let result = try await predictionsService.detectPlainText(image: url)
+            XCTFail("Should not produce result: \(result)")
+        } catch {
+            XCTAssertNotNil(error, "Should produce an error")
+        }
+    }
+
+    func test_detectLabels_noLabels() async throws {
+        setUpAmplify()
+        mockRekognition.detectLabelsResponse = { input in
+            .init(
+                imageProperties: nil,
+                labelModelVersion: nil,
+                labels: nil,
+                orientationCorrection: nil
+            )
+        }
+        let url = try url("testImageLabels")
+
+        let result = try await predictionsService.detectLabels(
+            image: url, type: .labels
+        )
+        XCTAssertEqual(result.labels, [])
+    }
+
+    func test_detectLabels_throwKnownServiceError() async throws {
+        setUpAmplify()
+        mockRekognition.detectLabelsResponse = { input in
+            throw DetectLabelsOutputError.throttlingException(.init())
+        }
+        let url = try url("testImageLabels")
+
+
+        do {
+            let result = try await predictionsService.detectLabels(
+                image: url, type: .labels
+            )
+            XCTFail("Should not produce result: \(result)")
+        } catch {
+            XCTAssertNotNil(error, "Should produce an error")
+        }
+    }
+
+    func test_detectLabels_throwUnexpectedServiceError() async throws {
+        setUpAmplify()
+        mockRekognition.detectLabelsResponse = { input in
+            throw self.mockError
+        }
+        let url = try url("testImageLabels")
+
+        do {
+            let result = try await predictionsService.detectLabels(
+                image: url, type: .labels
+            )
+            XCTFail("Should not produce result: \(result)")
+        } catch {
+            XCTAssertNotNil(error, "Should produce an error")
+        }
+    }
+
+    func test_detectLabels_moderation_noLabels() async throws {
+        setUpAmplify()
+        mockRekognition.moderationLabelsResponse = { input in
+            .init(
+                humanLoopActivationOutput: nil,
+                moderationLabels: nil,
+                moderationModelVersion: nil
+            )
+        }
+        let url = try url("testImageLabels")
+
+        let result = try await predictionsService.detectLabels(
+            image: url, type: .moderation
+        )
+        XCTAssertEqual(result.labels, [])
+    }
+
+    func test_detectLabels_moderation_throwKnownServiceError() async throws {
+        setUpAmplify()
+        mockRekognition.moderationLabelsResponse = { input in
+            throw DetectModerationLabelsOutputError.throttlingException(.init())
+        }
+        let url = try url("testImageLabels")
+
+        do {
+            let result = try await predictionsService.detectLabels(
+                image: url, type: .moderation
+            )
+            XCTFail("Should not produce result: \(result)")
+        } catch {
+            XCTAssertNotNil(error, "Should produce an error")
+        }
+    }
+
+    func test_detectLabels_moderation_throwUnexpectedServiceError() async throws {
+        setUpAmplify()
+        mockRekognition.moderationLabelsResponse = { input in
+            throw self.mockError
+        }
+        let url = try url("testImageLabels")
+
+        do {
+            let result = try await predictionsService.detectLabels(
+                image: url, type: .moderation
+            )
+            XCTFail("Should not produce result: \(result)")
+        } catch {
+            XCTAssertNotNil(error, "Should produce an error")
+        }
+    }
+
+    func test_detectLabels_unexpectedType() async throws {
+        setUpAmplify()
+        let url = try url("testImageLabels")
+
+        do {
+            let result = try await predictionsService.detectLabels(
+                image: url, type: .init(id: 99)
+            )
             XCTFail("Should not produce result: \(result)")
         } catch {
             XCTAssertNotNil(error, "Should produce an error")

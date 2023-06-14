@@ -63,6 +63,76 @@ final class LivenessEventTestCase: XCTestCase {
             """
         )
     }
+
+    func test_livenessEvent_finalClientEvent() throws {
+        let finalClientEvent = FinalClientEvent(
+            initialClientEvent: .init(
+                challengeID: UUID().uuidString,
+                initialFaceLocation: .init(
+                    boundingBox: .init(x: 0, y: 0, width: 300, height: 400),
+                    startTimestamp: 42
+                ),
+                videoStartTime: 25
+            ),
+            targetFace: .init(
+                initialEvent: .init(
+                    boundingBox: .init(x: 0, y: 0, width: 300, height: 400),
+                    startTimestamp: 42
+                ),
+                endTimestamp: 55
+            ),
+            videoEndTimeStamp: 55
+        )
+
+        let livenessEvent = try LivenessEvent.final(
+            event: finalClientEvent
+        )
+
+        XCTAssertEqual(livenessEvent.eventTypeHeader, "ClientSessionInformationEvent")
+
+        let decodedPayload = try JSONDecoder().decode(
+            ClientSessionInformationEvent.self,
+            from: livenessEvent.payload
+        )
+
+        let expectedPayload = ClientSessionInformationEvent(
+            challenge: .init(
+                faceMovementAndLightChallenge: .init(
+                    challengeID: finalClientEvent.initialClientEvent.challengeID,
+                    targetFace: .init(
+                        boundingBox: .init(
+                            boundingBox: finalClientEvent.targetFace.initialEvent.boundingBox
+                        ),
+                        faceDetectedInTargetPositionStartTimestamp: finalClientEvent.targetFace.initialEvent.startTimestamp,
+                        faceDetectedInTargetPositionEndTimestamp: finalClientEvent.targetFace.endTimestamp
+                    ),
+                    initialFace: .init(
+                        boundingBox: .init(
+                            boundingBox: finalClientEvent.initialClientEvent.initialFaceLocation.boundingBox
+                        ),
+                        initialFaceDetectedTimeStamp: finalClientEvent.initialClientEvent.initialFaceLocation.startTimestamp
+                    ),
+                    videoStartTimestamp: nil,
+                    colorDisplayed: nil,
+                    videoEndTimeStamp: finalClientEvent.videoEndTimeStamp
+                )
+            )
+        )
+
+        XCTAssertEqual(decodedPayload, expectedPayload)
+
+        XCTAssertEqual(
+            livenessEvent.debugDescription,
+            """
+            LivenessEvent<FinalClientEvent>(
+                payload: 400 bytes,
+                eventKind: .client(.final),
+                eventTypeHeader: ClientSessionInformationEvent
+            )
+            """
+        )
+    }
+
 }
 
 

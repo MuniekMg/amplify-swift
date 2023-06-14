@@ -43,7 +43,7 @@ extension LivenessEvent where T == FinalClientEvent {
                     ),
                     videoStartTimestamp: nil,
                     colorDisplayed: nil,
-                    videoEndTimeStamp: Date().epochMilliseconds
+                    videoEndTimeStamp: event.videoEndTimeStamp
                 )
             )
         )

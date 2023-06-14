@@ -100,7 +100,31 @@ final class ModelPublicInitTestCase: XCTestCase {
         XCTAssertEqual(event.debugDescription, "unknown")
     }
 
-
+    func test_ovalMatchChallenge() {
+        let ovalMatchChallenge = FaceLivenessSession.OvalMatchChallenge(
+            faceDetectionThreshold: 0.7,
+            face: .init(
+                distanceThreshold: 0.9,
+                distanceThresholdMax: 0.95,
+                distanceThresholdMin: 0.9,
+                iouWidthThreshold: 0.8,
+                iouHeightThreshold: 0.0
+            ),
+            oval: .init(
+                boundingBox: .init(
+                    x: 1,
+                    y: 1,
+                    width: 25,
+                    height: 42
+                ),
+                heightWidthRatio: 0.65,
+                iouThreshold: 0.2,
+                iouWidthThreshold: 0.3,
+                iouHeightThreshold: 0.5
+            )
+        )
+        _ = ovalMatchChallenge
+    }
 
     func test_BoundingBox() {
         let (x, y, width, height) = (1.0, 2.2, 5.0, 10.1)
@@ -114,14 +138,5 @@ final class ModelPublicInitTestCase: XCTestCase {
         XCTAssertEqual(bb.width, width)
         XCTAssertEqual(bb.x, x)
         XCTAssertEqual(bb.y, y)
-    }
-}
-
-extension BoundingBox: Equatable {
-    public static func == (lhs: Self, rhs: Self) -> Bool {
-        lhs.width == rhs.width
-        && lhs.height == rhs.height
-        && lhs.left == rhs.left
-        && lhs.top == rhs.top
     }
 }
