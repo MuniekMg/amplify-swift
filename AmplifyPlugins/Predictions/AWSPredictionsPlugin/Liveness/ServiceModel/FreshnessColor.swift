@@ -14,3 +14,5 @@ public struct FreshnessColor: Codable {
         case rgb = "RGB"
     }
 }
+
+extension FreshnessColor: Equatable {}

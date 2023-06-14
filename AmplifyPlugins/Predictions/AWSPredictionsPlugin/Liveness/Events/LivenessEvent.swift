@@ -15,7 +15,7 @@ public struct LivenessEvent<T> {
 }
 
 @_spi(PredictionsFaceLiveness)
-public enum LivenessEventKind {
+public enum LivenessEventKind: Equatable {
     public struct Server: RawRepresentable, Hashable {
         public var rawValue: String
 

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ColorDisplayed: Codable {
+struct ColorDisplayed: Codable, Equatable {
     let currentColor: FreshnessColor
     let sequenceNumber: Int
     let currentColorStartTimeStamp: UInt64

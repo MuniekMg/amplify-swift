@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ClientChallenge: Codable {
+struct ClientChallenge: Codable, Equatable {
     let faceMovementAndLightChallenge: FaceMovementAndLightClientChallenge?
 
     enum CodingKeys: String, CodingKey {

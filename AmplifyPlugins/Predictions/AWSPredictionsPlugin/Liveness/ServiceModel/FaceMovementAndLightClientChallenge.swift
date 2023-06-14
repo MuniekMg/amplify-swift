@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct FaceMovementAndLightClientChallenge: Codable {
+struct FaceMovementAndLightClientChallenge: Codable, Equatable {
     let challengeID: String
     let targetFace: TargetFace?
     let initialFace: InitialFace?

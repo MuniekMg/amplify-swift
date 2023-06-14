@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct BoundingBox: Codable {
+struct BoundingBox: Codable, Equatable {
     let width: Double
     let height: Double
     let left: Double

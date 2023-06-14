@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ClientSessionInformationEvent: Codable {
+struct ClientSessionInformationEvent: Codable, Equatable {
     let challenge: ClientChallenge?
 
     enum CodingKeys: String, CodingKey {

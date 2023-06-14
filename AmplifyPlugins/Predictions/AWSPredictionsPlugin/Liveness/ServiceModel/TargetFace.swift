@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TargetFace: Codable {
+struct TargetFace: Codable, Equatable {
     let boundingBox: BoundingBox
     let faceDetectedInTargetPositionStartTimestamp: UInt64
     let faceDetectedInTargetPositionEndTimestamp: UInt64
