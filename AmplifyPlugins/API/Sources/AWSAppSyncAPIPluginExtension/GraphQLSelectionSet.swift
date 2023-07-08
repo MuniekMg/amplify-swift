@@ -47,25 +47,25 @@ extension AmplifyJSONValue: Decodable {
     }
 }
 
-public extension GraphQLSelectionSet {
-  init(jsonObject: JSONObject) throws {
-    let executor = GraphQLExecutor { object, info in
-      .result(.success(object[info.responseKeyForField]))
-    }
-    executor.shouldComputeCachePath = false
-    self = try executor.execute(selections: Self.selections, on: jsonObject, accumulator: GraphQLSelectionSetMapper<Self>()).await()
-  }
-  
-  var jsonObject: JSONObject {
-    return snapshot.jsonObject
-  }
-}
+//public extension GraphQLSelectionSet {
+//  init(jsonObject: JSONObject) throws {
+//    let executor = GraphQLExecutor { object, info in
+//      .result(.success(object[info.responseKeyForField]))
+//    }
+//    executor.shouldComputeCachePath = false
+//    self = try executor.execute(selections: Self.selections, on: jsonObject, accumulator: GraphQLSelectionSetMapper<Self>()).await()
+//  }
+//
+//  var jsonObject: JSONObject {
+//    return snapshot.jsonObject
+//  }
+//}
 
-extension GraphQLSelectionSet {
-  public init(_ selectionSet: GraphQLSelectionSet) throws {
-    try self.init(jsonObject: selectionSet.jsonObject)
-  }
-}
+//extension GraphQLSelectionSet {
+//  public init(_ selectionSet: GraphQLSelectionSet) throws {
+//    try self.init(jsonObject: selectionSet.jsonObject)
+//  }
+//}
 
 public protocol GraphQLSelection {
 }
