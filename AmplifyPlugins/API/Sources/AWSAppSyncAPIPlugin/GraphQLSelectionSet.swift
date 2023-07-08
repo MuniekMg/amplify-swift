@@ -1,5 +1,3 @@
-import Amplify
-
 public typealias Snapshot = [String: Any?]
 
 public protocol GraphQLSelectionSet: Decodable {
@@ -12,10 +10,39 @@ public protocol GraphQLSelectionSet: Decodable {
 extension GraphQLSelectionSet {
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = try? container.decode([String: JSONValue].self) {
+        if let value = try? container.decode([String: AmplifyJSONValue].self) {
             self.init(snapshot: value as Snapshot)
         } else {
             self.init(snapshot: [:])
+        }
+    }
+}
+
+enum AmplifyJSONValue {
+    case array([AmplifyJSONValue])
+    case boolean(Bool)
+    case number(Double)
+    case object([String: AmplifyJSONValue])
+    case string(String)
+    case null
+}
+
+extension AmplifyJSONValue: Decodable {
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        
+        if let value = try? container.decode([String: AmplifyJSONValue].self) {
+            self = .object(value)
+        } else if let value = try? container.decode([AmplifyJSONValue].self) {
+            self = .array(value)
+        } else if let value = try? container.decode(Double.self) {
+            self = .number(value)
+        } else if let value = try? container.decode(Bool.self) {
+            self = .boolean(value)
+        } else if let value = try? container.decode(String.self) {
+            self = .string(value)
+        } else {
+            self = .null
         }
     }
 }

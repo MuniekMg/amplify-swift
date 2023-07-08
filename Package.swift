@@ -37,6 +37,10 @@ let amplifyTargets: [Target] = [
         ]
     ),
     .target(
+        name: "AWSAppSyncAPIPlugin",
+        path: "AmplifyPlugins/API/Sources/AWSAppSyncAPIPlugin"
+    ),
+    .target(
         name: "AmplifyTestCommon",
         dependencies: [
             "Amplify",
@@ -394,6 +398,10 @@ let package = Package(
         .library(
             name: "AWSPluginsCore",
             targets: ["AWSPluginsCore"]
+        ),
+        .library(
+            name: "AWSAppSyncAPIPlugin",
+            targets: ["AWSAppSyncAPIPlugin"]
         ),
         .library(
             name: "AWSAPIPlugin",
