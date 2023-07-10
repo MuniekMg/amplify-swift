@@ -7,11 +7,17 @@ public protocol GraphQLSelectionSet: Decodable {
   init(snapshot: Snapshot)
 }
 
+import Foundation
+
 extension GraphQLSelectionSet {
     public init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        if let value = try? container.decode([String: JSONValue].self) {
-            self.init(snapshot: value as Snapshot)
+        if let jsonObject = try? JSONValue(from: decoder) {
+            let encoder = JSONEncoder()
+            let jsonData = try encoder.encode(jsonObject)
+            let decodedDictionary = try JSONSerialization.jsonObject(with: jsonData, options: []) as! [String: Any]
+            let optionalDictionary = decodedDictionary.mapValues { $0 as Any? }
+
+            self.init(snapshot: optionalDictionary)
         } else {
             self.init(snapshot: [:])
         }

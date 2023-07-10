@@ -39,10 +39,10 @@ enum JSONValue {
     case null
 }
 
-extension JSONValue: Decodable {
+extension JSONValue: Codable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        
+
         if let value = try? container.decode([String: JSONValue].self) {
             self = .object(value)
         } else if let value = try? container.decode([JSONValue].self) {
@@ -57,4 +57,24 @@ extension JSONValue: Decodable {
             self = .null
         }
     }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+
+        switch self {
+        case .array(let value):
+            try container.encode(value)
+        case .boolean(let value):
+            try container.encode(value)
+        case .number(let value):
+            try container.encode(value)
+        case .object(let value):
+            try container.encode(value)
+        case .string(let value):
+            try container.encode(value)
+        case .null:
+            try container.encodeNil()
+        }
+    }
+
 }
