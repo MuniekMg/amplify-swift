@@ -1,7 +1,7 @@
 import Foundation
 
 public protocol GraphQLInputValue {
-  func evaluate(with variables: [String: JSONEncodable]?) throws -> JSONValueAny
+  func evaluate(with variables: [String: JSONEncodable]?) throws -> Any
 }
 
 public struct GraphQLVariable {
@@ -13,7 +13,7 @@ public struct GraphQLVariable {
 }
 
 extension GraphQLVariable: GraphQLInputValue {
-  public func evaluate(with variables: [String: JSONEncodable]?) throws -> JSONValueAny {
+  public func evaluate(with variables: [String: JSONEncodable]?) throws -> Any {
     guard let value = variables?[name] else {
       throw GraphQLError("Variable \(name) was not provided.")
     }
@@ -22,13 +22,13 @@ extension GraphQLVariable: GraphQLInputValue {
 }
 
 extension JSONEncodable {
-  public func evaluate(with variables: [String: JSONEncodable]?) throws -> JSONValueAny {
+  public func evaluate(with variables: [String: JSONEncodable]?) throws -> Any {
     return jsonValue
   }
 }
 
 extension Dictionary: GraphQLInputValue {
-  public func evaluate(with variables: [String: JSONEncodable]?) throws -> JSONValueAny {
+  public func evaluate(with variables: [String: JSONEncodable]?) throws -> Any {
     return try evaluate(with: variables) as JSONObject
   }
 }
@@ -51,14 +51,14 @@ extension Dictionary {
 }
 
 extension Array: GraphQLInputValue {
-  public func evaluate(with variables: [String: JSONEncodable]?) throws -> JSONValueAny {
-    return try evaluate(with: variables) as [JSONValueAny]
+  public func evaluate(with variables: [String: JSONEncodable]?) throws -> Any {
+    return try evaluate(with: variables) as [Any]
   }
 }
 
 extension Array {
-  public func evaluate(with variables: [String: JSONEncodable]?) throws -> [JSONValueAny] {
-    var jsonArray = [JSONValueAny]()
+  public func evaluate(with variables: [String: JSONEncodable]?) throws -> [Any] {
+    var jsonArray = [Any]()
     jsonArray.reserveCapacity(count)
     for (value) in self {
       if case let (value as GraphQLInputValue) = value {
@@ -90,13 +90,13 @@ public protocol GraphQLMapConvertible: JSONEncodable {
 }
 
 public extension GraphQLMapConvertible {
-  var jsonValue: JSONValueAny {
+  var jsonValue: Any {
     return graphQLMap.withNilValuesRemoved.jsonValue
   }
 }
 
 public extension GraphQLMapConvertible {
-  func evaluate(with variables: [String: JSONEncodable]?) throws -> JSONValueAny {
+  func evaluate(with variables: [String: JSONEncodable]?) throws -> Any {
     return try graphQLMap.evaluate(with: variables)
   }
 }

@@ -1,72 +1,72 @@
 import Foundation
 
 extension String: JSONDecodable, JSONEncodable {
-  public init(jsonValue value: JSONValueAny) throws {
+  public init(jsonValue value: Any) throws {
     guard let string = value as? String else {
       throw JSONDecodingError.couldNotConvert(value: value, to: String.self)
     }
     self = string
   }
 
-  public var jsonValue: JSONValueAny {
+  public var jsonValue: Any {
     return self
   }
 }
 
 extension Int: JSONDecodable, JSONEncodable {
-  public init(jsonValue value: JSONValueAny) throws {
+  public init(jsonValue value: Any) throws {
     guard let number = value as? NSNumber else {
       throw JSONDecodingError.couldNotConvert(value: value, to: Int.self)
     }
     self = number.intValue
   }
 
-  public var jsonValue: JSONValueAny {
+  public var jsonValue: Any {
     return self
   }
 }
 
 extension Float: JSONDecodable, JSONEncodable {
-  public init(jsonValue value: JSONValueAny) throws {
+  public init(jsonValue value: Any) throws {
     guard let number = value as? NSNumber else {
       throw JSONDecodingError.couldNotConvert(value: value, to: Float.self)
     }
     self = number.floatValue
   }
 
-  public var jsonValue: JSONValueAny {
+  public var jsonValue: Any {
     return self
   }
 }
 
 extension Double: JSONDecodable, JSONEncodable {
-  public init(jsonValue value: JSONValueAny) throws {
+  public init(jsonValue value: Any) throws {
     guard let number = value as? NSNumber else {
       throw JSONDecodingError.couldNotConvert(value: value, to: Double.self)
     }
     self = number.doubleValue
   }
 
-  public var jsonValue: JSONValueAny {
+  public var jsonValue: Any {
     return self
   }
 }
 
 extension Bool: JSONDecodable, JSONEncodable {
-  public init(jsonValue value: JSONValueAny) throws {
+  public init(jsonValue value: Any) throws {
     guard let bool = value as? Bool else {
         throw JSONDecodingError.couldNotConvert(value: value, to: Bool.self)
     }
     self = bool
   }
 
-  public var jsonValue: JSONValueAny {
+  public var jsonValue: Any {
     return self
   }
 }
 
 extension RawRepresentable where RawValue: JSONDecodable {
-  public init(jsonValue value: JSONValueAny) throws {
+  public init(jsonValue value: Any) throws {
     let rawValue = try RawValue(jsonValue: value)
     if let tempSelf = Self(rawValue: rawValue) {
       self = tempSelf
@@ -77,13 +77,13 @@ extension RawRepresentable where RawValue: JSONDecodable {
 }
 
 extension RawRepresentable where RawValue: JSONEncodable {
-  public var jsonValue: JSONValueAny {
+  public var jsonValue: Any {
     return rawValue.jsonValue
   }
 }
 
 extension Optional where Wrapped: JSONDecodable {
-  public init(jsonValue value: JSONValueAny) throws {
+  public init(jsonValue value: Any) throws {
     if value is NSNull {
       self = .none
     } else {
@@ -95,7 +95,7 @@ extension Optional where Wrapped: JSONDecodable {
 // Once [conditional conformances](https://github.com/apple/swift-evolution/blob/master/proposals/0143-conditional-conformances.md) have been implemented, we should be able to replace these runtime type checks with proper static typing
 
 extension Optional: JSONEncodable {
-  public var jsonValue: JSONValueAny {
+  public var jsonValue: Any {
     switch self {
     case .none:
       return NSNull()
@@ -108,7 +108,7 @@ extension Optional: JSONEncodable {
 }
 
 extension Dictionary: JSONEncodable {
-  public var jsonValue: JSONValueAny {
+  public var jsonValue: Any {
     return jsonObject
   }
   
@@ -126,8 +126,8 @@ extension Dictionary: JSONEncodable {
 }
 
 extension Array: JSONEncodable {
-  public var jsonValue: JSONValueAny {
-    return map() { element -> (JSONValueAny) in
+  public var jsonValue: Any {
+    return map() { element -> (Any) in
       if case let element as JSONEncodable = element {
         return element.jsonValue
       } else {
@@ -140,14 +140,14 @@ extension Array: JSONEncodable {
 // Example custom scalar
 
 extension URL: JSONDecodable, JSONEncodable {
-  public init(jsonValue value: JSONValueAny) throws {
+  public init(jsonValue value: Any) throws {
     guard let string = value as? String else {
       throw JSONDecodingError.couldNotConvert(value: value, to: URL.self)
     }
     self.init(string: string)!
   }
 
-  public var jsonValue: JSONValueAny {
+  public var jsonValue: Any {
     return self.absoluteString
   }
 }

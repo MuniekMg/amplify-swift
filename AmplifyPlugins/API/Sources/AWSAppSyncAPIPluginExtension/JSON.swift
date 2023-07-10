@@ -1,15 +1,13 @@
 import Foundation
 
-public typealias JSONValueAny = Any
-
-public typealias JSONObject = [String: JSONValueAny]
+public typealias JSONObject = [String: Any]
 
 public protocol JSONDecodable {
-  init(jsonValue value: JSONValueAny) throws
+  init(jsonValue value: Any) throws
 }
 
 public protocol JSONEncodable: GraphQLInputValue {
-  var jsonValue: JSONValueAny { get }
+  var jsonValue: Any { get }
 }
 
 public enum JSONDecodingError: Error, LocalizedError {

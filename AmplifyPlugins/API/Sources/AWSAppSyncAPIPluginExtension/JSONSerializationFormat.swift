@@ -5,7 +5,7 @@ public final class JSONSerializationFormat {
     return try JSONSerialization.data(withJSONObject: value.jsonValue, options: [])
   }
   
-  public class func deserialize(data: Data) throws -> JSONValueAny {
+  public class func deserialize(data: Data) throws -> Any {
     return try JSONSerialization.jsonObject(with: data, options: [])
   }
 }
