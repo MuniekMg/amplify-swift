@@ -48,13 +48,31 @@ extension JSONDecodingError: Matchable {
   }
 }
 
-// MARK: Helpers
+enum AmplifyJSONValue {
+    case array([AmplifyJSONValue])
+    case boolean(Bool)
+    case number(Double)
+    case object([String: AmplifyJSONValue])
+    case string(String)
+    case null
+}
 
-//func equals(_ lhs: Any, _ rhs: Any) -> Bool {
-//  if let lhs = lhs as? Reference, let rhs = rhs as? Reference {
-//    return lhs == rhs
-//  }
-//  
-//  let lhs = lhs as AnyObject, rhs = rhs as AnyObject
-//  return lhs.isEqual(rhs)
-//}
+extension AmplifyJSONValue: Decodable {
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        
+        if let value = try? container.decode([String: AmplifyJSONValue].self) {
+            self = .object(value)
+        } else if let value = try? container.decode([AmplifyJSONValue].self) {
+            self = .array(value)
+        } else if let value = try? container.decode(Double.self) {
+            self = .number(value)
+        } else if let value = try? container.decode(Bool.self) {
+            self = .boolean(value)
+        } else if let value = try? container.decode(String.self) {
+            self = .string(value)
+        } else {
+            self = .null
+        }
+    }
+}
