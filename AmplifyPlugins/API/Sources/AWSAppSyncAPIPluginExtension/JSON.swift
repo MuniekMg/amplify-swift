@@ -32,21 +32,21 @@ public enum JSONDecodingError: Error, LocalizedError {
   }
 }
 
-extension JSONDecodingError: Matchable {
-  public typealias Base = Error
-  public static func ~=(pattern: JSONDecodingError, value: Error) -> Bool {
-    guard let value = value as? JSONDecodingError else {
-      return false
-    }
-    
-    switch (value, pattern) {
-    case (.missingValue, .missingValue), (.nullValue, .nullValue), (.couldNotConvert, .couldNotConvert):
-      return true
-    default:
-      return false
-    }
-  }
-}
+//extension JSONDecodingError: Matchable {
+//  public typealias Base = Error
+//  public static func ~=(pattern: JSONDecodingError, value: Error) -> Bool {
+//    guard let value = value as? JSONDecodingError else {
+//      return false
+//    }
+//    
+//    switch (value, pattern) {
+//    case (.missingValue, .missingValue), (.nullValue, .nullValue), (.couldNotConvert, .couldNotConvert):
+//      return true
+//    default:
+//      return false
+//    }
+//  }
+//}
 
 enum AmplifyJSONValue {
     case array([AmplifyJSONValue])
