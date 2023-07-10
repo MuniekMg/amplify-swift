@@ -730,6 +730,16 @@
                </Test>
             </SkippedTests>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "AWSAppSyncAPIPluginExtensionTests"
+               BuildableName = "AWSAppSyncAPIPluginExtensionTests"
+               BlueprintName = "AWSAppSyncAPIPluginExtensionTests"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

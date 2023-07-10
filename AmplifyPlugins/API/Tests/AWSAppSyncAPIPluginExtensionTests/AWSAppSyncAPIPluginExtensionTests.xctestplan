@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "EEAC02A5-390D-4CFF-A323-C03E897CA1C0",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "AWSAppSyncAPIPluginExtensionTests",
+        "name" : "AWSAppSyncAPIPluginExtensionTests"
+      }
+    }
+  ],
+  "version" : 1
+}

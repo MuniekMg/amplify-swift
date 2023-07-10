@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "4AB9D39B-59B5-4B2D-96F4-495133B75528",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "AWSAppSyncAPIPluginExtensionTests",
+        "name" : "AWSAppSyncAPIPluginExtensionTests"
+      }
+    }
+  ],
+  "version" : 1
+}

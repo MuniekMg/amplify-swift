@@ -106,6 +106,11 @@ let amplifyTargets: [Target] = [
         exclude: [
             "Info.plist"
         ]
+    ),
+    .testTarget(
+        name: "AWSAppSyncAPIPluginExtensionTests",
+        dependencies: ["AWSAppSyncAPIPluginExtension"],
+        path: "AmplifyPlugins/API/Tests/AWSAppSyncAPIPluginExtensionTests"
     )
 ]
 
