@@ -30,38 +30,22 @@ public enum JSONDecodingError: Error, LocalizedError {
   }
 }
 
-//extension JSONDecodingError: Matchable {
-//  public typealias Base = Error
-//  public static func ~=(pattern: JSONDecodingError, value: Error) -> Bool {
-//    guard let value = value as? JSONDecodingError else {
-//      return false
-//    }
-//    
-//    switch (value, pattern) {
-//    case (.missingValue, .missingValue), (.nullValue, .nullValue), (.couldNotConvert, .couldNotConvert):
-//      return true
-//    default:
-//      return false
-//    }
-//  }
-//}
-
-enum AmplifyJSONValue {
-    case array([AmplifyJSONValue])
+enum JSONValue {
+    case array([JSONValue])
     case boolean(Bool)
     case number(Double)
-    case object([String: AmplifyJSONValue])
+    case object([String: JSONValue])
     case string(String)
     case null
 }
 
-extension AmplifyJSONValue: Decodable {
+extension JSONValue: Decodable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         
-        if let value = try? container.decode([String: AmplifyJSONValue].self) {
+        if let value = try? container.decode([String: JSONValue].self) {
             self = .object(value)
-        } else if let value = try? container.decode([AmplifyJSONValue].self) {
+        } else if let value = try? container.decode([JSONValue].self) {
             self = .array(value)
         } else if let value = try? container.decode(Double.self) {
             self = .number(value)

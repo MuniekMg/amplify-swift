@@ -10,7 +10,7 @@ public protocol GraphQLSelectionSet: Decodable {
 extension GraphQLSelectionSet {
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = try? container.decode([String: AmplifyJSONValue].self) {
+        if let value = try? container.decode([String: JSONValue].self) {
             self.init(snapshot: value as Snapshot)
         } else {
             self.init(snapshot: [:])
