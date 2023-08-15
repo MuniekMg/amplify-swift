@@ -11,12 +11,14 @@ import Amplify
 /// A type that can be represented as an AuthError
 ///
 protocol AuthErrorConvertible {
-
     var authError: AuthError { get }
+    var fallbackDescription: String { get }
 }
 
 extension AuthError: AuthErrorConvertible {
     var authError: AuthError {
         return self
     }
+
+    var fallbackDescription: String { "" }
 }

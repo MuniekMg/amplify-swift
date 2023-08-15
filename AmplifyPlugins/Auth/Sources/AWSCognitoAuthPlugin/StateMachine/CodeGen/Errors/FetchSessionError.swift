@@ -50,6 +50,9 @@ extension FetchSessionError: Equatable {
 }
 
 extension FetchSessionError: AuthErrorConvertible {
+    var fallbackDescription: String { "" }
+
+
     var authError: AuthError {
         switch self {
         case .noIdentityPool:
