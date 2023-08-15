@@ -19,12 +19,12 @@ class AuthenticationProviderDeleteUserTests: BasePluginTest {
     func testDeleteUserSuccess() async {
         mockIdentityProvider = MockIdentityProvider(
             mockRevokeTokenResponse: { _ in
-                try RevokeTokenOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
+                try await RevokeTokenOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
             }, mockGlobalSignOutResponse: { _ in
-                try GlobalSignOutOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
+                try await GlobalSignOutOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
             },
             mockDeleteUserOutputResponse: { _ in
-                try DeleteUserOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
+                try await DeleteUserOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
             }
         )
         do {
@@ -48,12 +48,14 @@ class AuthenticationProviderDeleteUserTests: BasePluginTest {
     func testSignOutFailureWhenDeleteUserIsSuccess() async {
         mockIdentityProvider = MockIdentityProvider(
             mockRevokeTokenResponse: { _ in
-                throw RevokeTokenOutputError.unsupportedTokenTypeException(.init())
+                throw UnsupportedTokenTypeException()
             }, mockGlobalSignOutResponse: { _ in
-                throw GlobalSignOutOutputError.internalErrorException(.init())
+                throw InternalErrorException()
             },
             mockDeleteUserOutputResponse: { _ in
-                try DeleteUserOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
+                try await DeleteUserOutputResponse(
+                    httpResponse: .init(body: .empty, statusCode: .ok)
+                )
             }
         )
         do {
@@ -78,13 +80,12 @@ class AuthenticationProviderDeleteUserTests: BasePluginTest {
     func testOfflineDeleteUser() async {
         mockIdentityProvider = MockIdentityProvider(
             mockRevokeTokenResponse: { _ in
-                try RevokeTokenOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
+                try await RevokeTokenOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
             }, mockGlobalSignOutResponse: { _ in
-                try GlobalSignOutOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
+                try await GlobalSignOutOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
             },
             mockDeleteUserOutputResponse: { _ in
-                let crtError = ClientRuntime.ClientError.retryError(CommonRunTimeError.crtError(CRTError(code: 1059)))
-                throw SdkError<DeleteUserOutputError>.client(crtError)
+                throw RetryError.transient
             }
         )
         do {
@@ -113,13 +114,17 @@ class AuthenticationProviderDeleteUserTests: BasePluginTest {
     func testOfflineDeleteUserAndRetry() async {
         mockIdentityProvider = MockIdentityProvider(
             mockRevokeTokenResponse: { _ in
-                try RevokeTokenOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
+                try await RevokeTokenOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
             }, mockGlobalSignOutResponse: { _ in
-                try GlobalSignOutOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
+                try await GlobalSignOutOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
             },
             mockDeleteUserOutputResponse: { _ in
-                let crtError = ClientRuntime.ClientError.retryError(CommonRunTimeError.crtError(CRTError(code: 1059)))
-                throw SdkError<DeleteUserOutputError>.client(crtError)
+                struct RetryE: ModeledError, Error {
+                    static var isRetyrable = true
+                    static var fault = ErrorFault.client
+                    static var isThrottling = true
+                }
+                throw RetryE()
             }
         )
         do {
@@ -135,12 +140,12 @@ class AuthenticationProviderDeleteUserTests: BasePluginTest {
 
         mockIdentityProvider = MockIdentityProvider(
             mockRevokeTokenResponse: { _ in
-                try RevokeTokenOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
+                try await RevokeTokenOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
             }, mockGlobalSignOutResponse: { _ in
-                try GlobalSignOutOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
+                try await GlobalSignOutOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
             },
             mockDeleteUserOutputResponse: { _ in
-                try DeleteUserOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
+                try await DeleteUserOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
             }
         )
         do {
@@ -166,12 +171,12 @@ class AuthenticationProviderDeleteUserTests: BasePluginTest {
     func testDeleteUserInternalErrorException() async {
         mockIdentityProvider = MockIdentityProvider(
             mockRevokeTokenResponse: { _ in
-                try RevokeTokenOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
+                try await RevokeTokenOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
             }, mockGlobalSignOutResponse: { _ in
-                try GlobalSignOutOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
+                try await GlobalSignOutOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
             },
             mockDeleteUserOutputResponse: { _ in
-                throw DeleteUserOutputError.unknown(.init(httpResponse: .init(body: .empty, statusCode: .badRequest)))
+                throw InternalErrorException()
             }
         )
 
@@ -199,12 +204,12 @@ class AuthenticationProviderDeleteUserTests: BasePluginTest {
     func testDeleteUserWithInvalidParameterException() async {
         mockIdentityProvider = MockIdentityProvider(
             mockRevokeTokenResponse: { _ in
-                try RevokeTokenOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
+                try await RevokeTokenOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
             }, mockGlobalSignOutResponse: { _ in
-                try GlobalSignOutOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
+                try await GlobalSignOutOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
             },
             mockDeleteUserOutputResponse: { _ in
-                throw DeleteUserOutputError.invalidParameterException(.init())
+                throw InvalidParameterException()
             }
         )
 
@@ -233,12 +238,12 @@ class AuthenticationProviderDeleteUserTests: BasePluginTest {
     func testDeleteUserWithNotAuthorizedException() async {
         mockIdentityProvider = MockIdentityProvider(
             mockRevokeTokenResponse: { _ in
-                try RevokeTokenOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
+                try await RevokeTokenOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
             }, mockGlobalSignOutResponse: { _ in
-                try GlobalSignOutOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
+                try await GlobalSignOutOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
             },
             mockDeleteUserOutputResponse: { _ in
-                throw DeleteUserOutputError.notAuthorizedException(.init())
+                throw NotAuthorizedException()
             }
         )
 
@@ -266,12 +271,12 @@ class AuthenticationProviderDeleteUserTests: BasePluginTest {
     func testDeleteUserWithPasswordResetRequiredException() async {
         mockIdentityProvider = MockIdentityProvider(
             mockRevokeTokenResponse: { _ in
-                try RevokeTokenOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
+                try await RevokeTokenOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
             }, mockGlobalSignOutResponse: { _ in
-                try GlobalSignOutOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
+                try await GlobalSignOutOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
             },
             mockDeleteUserOutputResponse: { _ in
-                throw DeleteUserOutputError.passwordResetRequiredException(.init())
+                throw PasswordResetRequiredException()
             }
         )
 
@@ -300,12 +305,12 @@ class AuthenticationProviderDeleteUserTests: BasePluginTest {
     func testDeleteUserWithResourceNotFoundException() async {
         mockIdentityProvider = MockIdentityProvider(
             mockRevokeTokenResponse: { _ in
-                try RevokeTokenOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
+                try await RevokeTokenOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
             }, mockGlobalSignOutResponse: { _ in
-                try GlobalSignOutOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
+                try await GlobalSignOutOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
             },
             mockDeleteUserOutputResponse: { _ in
-                throw DeleteUserOutputError.resourceNotFoundException(.init())
+                throw ResourceNotFoundException()
             }
         )
 
@@ -334,12 +339,12 @@ class AuthenticationProviderDeleteUserTests: BasePluginTest {
     func testDeleteUserWithTooManyRequestsException() async {
         mockIdentityProvider = MockIdentityProvider(
             mockRevokeTokenResponse: { _ in
-                try RevokeTokenOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
+                try await RevokeTokenOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
             }, mockGlobalSignOutResponse: { _ in
-                try GlobalSignOutOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
+                try await GlobalSignOutOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
             },
             mockDeleteUserOutputResponse: { _ in
-                throw DeleteUserOutputError.tooManyRequestsException(.init())
+                throw TooManyRequestsException()
             }
         )
 
@@ -368,12 +373,12 @@ class AuthenticationProviderDeleteUserTests: BasePluginTest {
     func testDeleteUserWithUserNotConfirmedException() async {
         mockIdentityProvider = MockIdentityProvider(
             mockRevokeTokenResponse: { _ in
-                try RevokeTokenOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
+                try await RevokeTokenOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
             }, mockGlobalSignOutResponse: { _ in
-                try GlobalSignOutOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
+                try await GlobalSignOutOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
             },
             mockDeleteUserOutputResponse: { _ in
-                throw DeleteUserOutputError.userNotConfirmedException(.init())
+                throw UserNotConfirmedException()
             }
         )
 
@@ -403,12 +408,12 @@ class AuthenticationProviderDeleteUserTests: BasePluginTest {
     func testDeleteUserWithUserNotFoundException() async {
         mockIdentityProvider = MockIdentityProvider(
             mockRevokeTokenResponse: { _ in
-                try RevokeTokenOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
+                try await RevokeTokenOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
             }, mockGlobalSignOutResponse: { _ in
-                try GlobalSignOutOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
+                try await GlobalSignOutOutputResponse(httpResponse: .init(body: .empty, statusCode: .ok))
             },
             mockDeleteUserOutputResponse: { _ in
-                throw DeleteUserOutputError.userNotFoundException(.init())
+                throw UserNotFoundException()
             }
         )
 
