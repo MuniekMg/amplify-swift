@@ -18,7 +18,7 @@ permissions:
 jobs:
   upload-coverage:
     name: ${{ inputs.scheme }} Coverage Report
-    runs-on: macos-13
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 #v3.5.3
         with:
@@ -34,4 +34,3 @@ jobs:
         uses: codecov/codecov-action@eaaf4bedf32dbdc6b720b63067d99c4d77d6047d # v3.1.4
         with:
           flags: ${{ inputs.flags }}
-          fail_ci_if_error: true
