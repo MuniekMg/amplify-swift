@@ -23,7 +23,7 @@ class AWSS3StoragePluginOptionsUsabilityTests: AWSS3StoragePluginTestBase {
         let key = UUID().uuidString
         await uploadData(key: key, dataString: key)
 
-    #if os(iOS)
+    #if os(iOS) || os(visionOS)
         let expires = 10
     #else
         let expires = 1
@@ -37,7 +37,7 @@ class AWSS3StoragePluginOptionsUsabilityTests: AWSS3StoragePluginTestBase {
     // Runnning this in watchOS and tvOS ocasionally fails when the URL expires before the request is sent.
     // Since this API happy path is already being tested as part of
     // AWSS3StoragePluginBasicIntegrationTests.testGetRemoteURL, we're skipping it
-    #if os(iOS)
+    #if os(iOS) || os(visionOS)
         let dataTaskCompleteInvoked = expectation(description: "Completion of retrieving data at URL is invoked")
         let task = URLSession.shared.dataTask(with: remoteURL) { data, response, error in
             defer {

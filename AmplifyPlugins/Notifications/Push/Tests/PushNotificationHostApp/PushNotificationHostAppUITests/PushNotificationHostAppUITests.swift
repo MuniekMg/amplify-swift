@@ -26,7 +26,7 @@ final class PushNotificationHostAppUITests: XCTestCase {
 
     override func setUpWithError() throws {
         continueAfterFailure = false
-    #if os(iOS)
+    #if os(iOS) || os(visionOS)
         XCUIDevice.shared.orientation = .portrait
     #endif
         app.launch()
@@ -339,7 +339,7 @@ extension XCUIRemote {
 
 extension XCUIApplication {
     static var homeScreen: XCUIApplication {
-    #if os(iOS)
+    #if os(iOS) || os(visionOS)
         XCUIApplication(bundleIdentifier: "com.apple.springboard")
     #elseif os(tvOS)
         XCUIApplication(bundleIdentifier: "com.apple.PineBoard")
