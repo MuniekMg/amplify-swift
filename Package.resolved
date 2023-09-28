@@ -28,12 +28,12 @@
       }
     },
     {
-      "identity" : "aws-sdk-swift",
+      "identity" : "aws-sdk-swift_visionos",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/awslabs/aws-sdk-swift.git",
+      "location" : "https://github.com/MuniekMg/aws-sdk-swift_VisionOS",
       "state" : {
-        "revision" : "24bae88a2391fe75da8a940a544d1ef6441f5321",
-        "version" : "0.13.0"
+        "branch" : "visionos",
+        "revision" : "2e8d4d3629c1cd564ded3d8527d7cedb14b8c936"
       }
     },
     {
@@ -55,12 +55,12 @@
       }
     },
     {
-      "identity" : "smithy-swift",
+      "identity" : "smithy-swift_visionos",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/awslabs/smithy-swift",
+      "location" : "https://github.com/MuniekMg/smithy-swift_VisionOS",
       "state" : {
-        "revision" : "7b28da158d92cd06a3549140d43b8fbcf64a94a6",
-        "version" : "0.15.0"
+        "branch" : "visionos",
+        "revision" : "7124ab47cc9aa9c1fd6a557d618b30c387a66908"
       }
     },
     {
@@ -95,8 +95,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-log.git",
       "state" : {
-        "revision" : "32e8d724467f8fe623624570367e3d50c5638e46",
-        "version" : "1.5.2"
+        "revision" : "532d8b529501fb73a2455b179e0bbb6d49b652ed",
+        "version" : "1.5.3"
       }
     },
     {

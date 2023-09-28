@@ -1,4 +1,5 @@
-// swift-tools-version:5.6
+// swift-tools-version: 5.9
+
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 import PackageDescription
 
@@ -6,10 +7,11 @@ let platforms: [SupportedPlatform] = [
     .iOS(.v13),
     .macOS(.v10_15),
     .tvOS(.v13),
-    .watchOS(.v7)
+    .watchOS(.v7),
+    .visionOS(.v1)
 ]
 let dependencies: [Package.Dependency] = [
-    .package(url: "https://github.com/awslabs/aws-sdk-swift.git", exact: "0.13.0"),
+    .package(url: "https://github.com/MuniekMg/aws-sdk-swift_VisionOS", branch: "visionos"),
     .package(url: "https://github.com/aws-amplify/aws-appsync-realtime-client-ios.git", from: "3.0.0"),
     .package(url: "https://github.com/stephencelis/SQLite.swift.git", exact: "0.13.2"),
     .package(url: "https://github.com/mattgallagher/CwlPreconditionTesting.git", from: "2.1.0"),
@@ -29,7 +31,7 @@ let amplifyTargets: [Target] = [
         name: "AWSPluginsCore",
         dependencies: [
             "Amplify",
-            .product(name: "AWSClientRuntime", package: "aws-sdk-swift")
+            .product(name: "AWSClientRuntime", package: "aws-sdk-swift_visionos")
         ],
         path: "AmplifyPlugins/Core/AWSPluginsCore",
         exclude: [
@@ -84,7 +86,7 @@ let amplifyTargets: [Target] = [
         dependencies: [
             "Amplify",
             "AWSPluginsCore",
-            .product(name: "AWSClientRuntime", package: "aws-sdk-swift")
+            .product(name: "AWSClientRuntime", package: "aws-sdk-swift_visionos")
         ],
         path: "AmplifyPlugins/Core/AWSPluginsTestCommon",
         exclude: [
@@ -96,7 +98,7 @@ let amplifyTargets: [Target] = [
         dependencies: [
             "AWSPluginsCore",
             "AmplifyTestCommon",
-            .product(name: "AWSClientRuntime", package: "aws-sdk-swift")
+            .product(name: "AWSClientRuntime", package: "aws-sdk-swift_visionos")
         ],
         path: "AmplifyPlugins/Core/AWSPluginsCoreTests",
         exclude: [
@@ -153,9 +155,9 @@ let authTargets: [Target] = [
             .target(name: "Amplify"),
             .target(name: "AmplifySRP"),
             .target(name: "AWSPluginsCore"),
-            .product(name: "AWSClientRuntime", package: "aws-sdk-swift"),
-            .product(name: "AWSCognitoIdentityProvider", package: "aws-sdk-swift"),
-            .product(name: "AWSCognitoIdentity", package: "aws-sdk-swift")
+            .product(name: "AWSClientRuntime", package: "aws-sdk-swift_visionos"),
+            .product(name: "AWSCognitoIdentityProvider", package: "aws-sdk-swift_visionos"),
+            .product(name: "AWSCognitoIdentity", package: "aws-sdk-swift_visionos")
         ],
         path: "AmplifyPlugins/Auth/Sources/AWSCognitoAuthPlugin"
     ),
@@ -220,7 +222,7 @@ let storageTargets: [Target] = [
         dependencies: [
             .target(name: "Amplify"),
             .target(name: "AWSPluginsCore"),
-            .product(name: "AWSS3", package: "aws-sdk-swift")],
+            .product(name: "AWSS3", package: "aws-sdk-swift_visionos")],
         path: "AmplifyPlugins/Storage/Sources/AWSS3StoragePlugin",
         exclude: [
             "Resources/Info.plist"
@@ -247,7 +249,7 @@ let geoTargets: [Target] = [
         dependencies: [
             .target(name: "Amplify"),
             .target(name: "AWSPluginsCore"),
-            .product(name: "AWSLocation", package: "aws-sdk-swift")],
+            .product(name: "AWSLocation", package: "aws-sdk-swift_visionos")],
         path: "AmplifyPlugins/Geo/Sources/AWSLocationGeoPlugin",
         exclude: [
             "Resources/Info.plist"
@@ -276,7 +278,7 @@ let internalPinpointTargets: [Target] = [
             .target(name: "AWSCognitoAuthPlugin"),
             .target(name: "AWSPluginsCore"),
             .product(name: "SQLite", package: "SQLite.swift"),
-            .product(name: "AWSPinpoint", package: "aws-sdk-swift"),
+            .product(name: "AWSPinpoint", package: "aws-sdk-swift_visionos"),
             .product(name: "AmplifyUtilsNotifications", package: "amplify-swift-utils-notifications")
         ],
         path: "AmplifyPlugins/Internal/Sources/InternalAWSPinpoint"
@@ -335,12 +337,12 @@ let predictionsTargets: [Target] = [
             .target(name: "Amplify"),
             .target(name: "AWSPluginsCore"),
             .target(name: "CoreMLPredictionsPlugin"),
-            .product(name: "AWSComprehend", package: "aws-sdk-swift"),
-            .product(name: "AWSPolly", package: "aws-sdk-swift"),
-            .product(name: "AWSRekognition", package: "aws-sdk-swift"),
-            .product(name: "AWSTextract", package: "aws-sdk-swift"),
-            .product(name: "AWSTranscribeStreaming", package: "aws-sdk-swift"),
-            .product(name: "AWSTranslate", package: "aws-sdk-swift")
+            .product(name: "AWSComprehend", package: "aws-sdk-swift_visionos"),
+            .product(name: "AWSPolly", package: "aws-sdk-swift_visionos"),
+            .product(name: "AWSRekognition", package: "aws-sdk-swift_visionos"),
+            .product(name: "AWSTextract", package: "aws-sdk-swift_visionos"),
+            .product(name: "AWSTranscribeStreaming", package: "aws-sdk-swift_visionos"),
+            .product(name: "AWSTranslate", package: "aws-sdk-swift_visionos")
         ],
         path: "AmplifyPlugins/Predictions/AWSPredictionsPlugin",
         exclude: []
