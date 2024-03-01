@@ -7,6 +7,7 @@
 
 import XCTest
 @testable import AWSAPIPlugin
+import AWSPluginsCore
 @testable import Amplify
 #if os(watchOS)
 @testable import APIWatchApp
@@ -17,7 +18,7 @@ import XCTest
 // swiftlint:disable type_body_length
 class GraphQLModelBasedTests: XCTestCase {
     
-    static let amplifyConfiguration = "testconfiguration/GraphQLModelBasedTests-amplifyconfiguration"
+    static let amplifyConfiguration = "GraphQLModelBasedTests-amplifyconfiguration"
     
     final public class PostCommentModelRegistration: AmplifyModelRegistration {
         public func registerModels(registry: ModelRegistry.Type) {
@@ -51,6 +52,63 @@ class GraphQLModelBasedTests: XCTestCase {
     
     override func tearDown() async throws {
         await Amplify.reset()
+    }
+    
+    // HERE
+    func testSubscribeToSyncableModels() async throws {
+        let uuid = UUID().uuidString
+        let testMethodName = String("\(#function)".dropLast(2))
+        let title = testMethodName + "Title"
+        
+        let connectedInvoked = expectation(description: "Connection established")
+        let disconnectedInvoked = expectation(description: "Connection disconnected")
+        let completedInvoked = expectation(description: "Completed invoked")
+        let progressInvoked = expectation(description: "Progress invoked")
+        let request = GraphQLRequest<MutationSyncResult>.subscription(to: Post.self, where: QueryPredicateGroup(type: .and, predicates: [Post.keys.rating > 0]), subscriptionType: .onCreate)
+        
+        let subscription = Amplify.API.subscribe(request: request)
+        Task {
+            do {
+                for try await subscriptionEvent in subscription {
+                    switch subscriptionEvent {
+                    case .connection(let state):
+                        switch state {
+                        case .connecting:
+                            break
+                        case .connected:
+                            connectedInvoked.fulfill()
+                        case .disconnected:
+                            disconnectedInvoked.fulfill()
+                        }
+                    case .data(let graphQLResponse):
+                        switch graphQLResponse {
+                        case .success(let mutationSync):
+                            XCTAssertEqual(mutationSync.model["title"] as? String, title)
+                            XCTAssertEqual(mutationSync.syncMetadata.version, 1)
+                        case .failure(let error):
+                            XCTFail(error.errorDescription)
+                        }
+                        progressInvoked.fulfill()
+                    }
+                }
+                completedInvoked.fulfill()
+                
+            } catch {
+                XCTFail("Unexpected subscription failure: \(error)")
+            }
+        }
+        
+        await fulfillment(of: [connectedInvoked], timeout: TestCommonConstants.networkTimeout)
+        
+        guard try await createPost(id: uuid, title: title) != nil else {
+            XCTFail("Failed to create post")
+            return
+        }
+        
+        await fulfillment(of: [progressInvoked], timeout: TestCommonConstants.networkTimeout)
+        subscription.cancel()
+        await fulfillment(of: [disconnectedInvoked, completedInvoked], timeout: TestCommonConstants.networkTimeout)
+        XCTAssertTrue(subscription.isCancelled)
     }
     
     func testQuerySinglePostWithModel() async throws {
@@ -461,10 +519,10 @@ class GraphQLModelBasedTests: XCTestCase {
     }
 
     func createPost(post: Post) async throws -> Post? {
-        let data = try await Amplify.API.mutate(request: .create(post))
+        let data = try await Amplify.API.mutate(request: .createMutation(of: post, version: 0))
         switch data {
         case .success(let post):
-            return post
+            return post.model.instance as? Post
         case .failure(let error):
             throw error
         }

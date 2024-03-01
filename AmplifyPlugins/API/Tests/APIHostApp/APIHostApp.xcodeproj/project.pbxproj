@@ -217,6 +217,7 @@
 		21FA8EF7295C9609009F6A07 /* GraphQLLazyLoadHasOneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21FA8EF6295C9609009F6A07 /* GraphQLLazyLoadHasOneTests.swift */; };
 		21FA8EF9295C962E009F6A07 /* GraphQLLazyLoadDefaultPKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21FA8EF8295C962E009F6A07 /* GraphQLLazyLoadDefaultPKTests.swift */; };
 		21FA8EFB295C9647009F6A07 /* GraphQLLazyLoadCompositePKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21FA8EFA295C9647009F6A07 /* GraphQLLazyLoadCompositePKTests.swift */; };
+		392715FE96FC3ED5CD9B2E3A /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 0FE64695C814DE1FA6DC8391 /* awsconfiguration.json */; };
 		395906B628AC4AC8004B96B1 /* RESTWithIAMIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21698BC728899BC8004BD994 /* RESTWithIAMIntegrationTests.swift */; };
 		395906B928AC4C3A004B96B1 /* TestConfigHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395906B828AC4C3A004B96B1 /* TestConfigHelper.swift */; };
 		395906CA28AC6468004B96B1 /* RESTWithUserPoolIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21698BCE28899BCF004BD994 /* RESTWithUserPoolIntegrationTests.swift */; };
@@ -353,6 +354,9 @@
 		97914C1E29558AF2002000EA /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 97914C1D29558AF2002000EA /* README.md */; };
 		97D4946D2981AF9900397C75 /* AuthSignInHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D4946B2981AF9900397C75 /* AuthSignInHelper.swift */; };
 		97D4946E2981AF9900397C75 /* TestConfigHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D4946C2981AF9900397C75 /* TestConfigHelper.swift */; };
+		A28E3D443EA4878CB2FCC1CB /* amplifyconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = FA65BC850717F8B8406A266A /* amplifyconfiguration.json */; };
+		D8D532322B8CEC6A001F60BC /* GraphQLModelBasedTests-amplifyconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = D8D532312B8CEC6A001F60BC /* GraphQLModelBasedTests-amplifyconfiguration.json */; };
+		D8D532332B8CEC87001F60BC /* GraphQLModelBasedTests-amplifyconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = D8D532312B8CEC6A001F60BC /* GraphQLModelBasedTests-amplifyconfiguration.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -443,6 +447,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0FE64695C814DE1FA6DC8391 /* awsconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = awsconfiguration.json; sourceTree = "<group>"; };
 		21262523289ABB0C003788E3 /* TestConfigHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestConfigHelper.swift; sourceTree = "<group>"; };
 		21262702289ABFE4003788E3 /* ScalarContainer+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ScalarContainer+Schema.swift"; sourceTree = "<group>"; };
 		21262703289ABFE5003788E3 /* Post5.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post5.swift; sourceTree = "<group>"; };
@@ -692,6 +697,8 @@
 		97914C1D29558AF2002000EA /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		97D4946B2981AF9900397C75 /* AuthSignInHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthSignInHelper.swift; sourceTree = "<group>"; };
 		97D4946C2981AF9900397C75 /* TestConfigHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestConfigHelper.swift; sourceTree = "<group>"; };
+		D8D532312B8CEC6A001F60BC /* GraphQLModelBasedTests-amplifyconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "GraphQLModelBasedTests-amplifyconfiguration.json"; sourceTree = "<group>"; };
+		FA65BC850717F8B8406A266A /* amplifyconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = amplifyconfiguration.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1166,6 +1173,7 @@
 				21EA887428F9BC600000BA75 /* AWSAPIPluginLazyLoadTests */,
 				21E73E6C28898D7900D7DB7E /* Products */,
 				21698BD728899EBB004BD994 /* Frameworks */,
+				39AC502FEC3F482AF1545BE2 /* AmplifyConfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1193,6 +1201,7 @@
 		21E73E6D28898D7900D7DB7E /* APIHostApp */ = {
 			isa = PBXGroup;
 			children = (
+				D8D532302B8CEC6A001F60BC /* testconfiguration */,
 				681DFE6E28E7451D0000C36A /* AsyncTesting */,
 				213DBB6028A40DAE00B30280 /* Info.plist */,
 				21698C072889B173004BD994 /* TestCommonConstants.swift */,
@@ -1322,6 +1331,15 @@
 			path = Base;
 			sourceTree = "<group>";
 		};
+		39AC502FEC3F482AF1545BE2 /* AmplifyConfig */ = {
+			isa = PBXGroup;
+			children = (
+				0FE64695C814DE1FA6DC8391 /* awsconfiguration.json */,
+				FA65BC850717F8B8406A266A /* amplifyconfiguration.json */,
+			);
+			name = AmplifyConfig;
+			sourceTree = "<group>";
+		};
 		39E0F13E289DD57D00939D9F /* AWSAPIPluginGraphQLIAMTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -1404,6 +1422,14 @@
 			);
 			path = Base;
 			sourceTree = "<group>";
+		};
+		D8D532302B8CEC6A001F60BC /* testconfiguration */ = {
+			isa = PBXGroup;
+			children = (
+				D8D532312B8CEC6A001F60BC /* GraphQLModelBasedTests-amplifyconfiguration.json */,
+			);
+			path = testconfiguration;
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -1803,6 +1829,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D8D532332B8CEC87001F60BC /* GraphQLModelBasedTests-amplifyconfiguration.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1819,6 +1846,9 @@
 			files = (
 				21E73E7628898D7A00D7DB7E /* Preview Assets.xcassets in Resources */,
 				21E73E7328898D7A00D7DB7E /* Assets.xcassets in Resources */,
+				D8D532322B8CEC6A001F60BC /* GraphQLModelBasedTests-amplifyconfiguration.json in Resources */,
+				392715FE96FC3ED5CD9B2E3A /* awsconfiguration.json in Resources */,
+				A28E3D443EA4878CB2FCC1CB /* amplifyconfiguration.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
