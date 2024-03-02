@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		20CE7D95A8D92B6E3DFE42B0 /* PostStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4544A40DDCB17855E6BAC74 /* PostStatus.swift */; };
 		21262524289ABB0C003788E3 /* TestConfigHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21262523289ABB0C003788E3 /* TestConfigHelper.swift */; };
 		21262731289ABFEB003788E3 /* ScalarContainer+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21262702289ABFE4003788E3 /* ScalarContainer+Schema.swift */; };
 		21262732289ABFEB003788E3 /* Post5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21262703289ABFE5003788E3 /* Post5.swift */; };
@@ -228,6 +229,7 @@
 		39E0F2AA28A440A700939D9F /* GraphQLWithUserPoolIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21698BBD28899B6D004BD994 /* GraphQLWithUserPoolIntegrationTests.swift */; };
 		39E0F2AD28A441B100939D9F /* TestConfigHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E0F2AC28A441B100939D9F /* TestConfigHelper.swift */; };
 		39E0F2AF28A4425C00939D9F /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E0F2AE28A4425C00939D9F /* Todo.swift */; };
+		60AE805EE43CB3956A727263 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AED3573FB1EAB396EB45BD /* Comment.swift */; };
 		681B35422A43962D0074F369 /* Team2+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2126271F289ABFE9003788E3 /* Team2+Schema.swift */; };
 		681B35432A43962D0074F369 /* EnumTestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21262707289ABFE6003788E3 /* EnumTestModel.swift */; };
 		681B35442A43962D0074F369 /* ScalarContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21262720289ABFE9003788E3 /* ScalarContainer.swift */; };
@@ -342,6 +344,7 @@
 		681DFEA428E747470000C36A /* AsyncTesting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 681DFE6F28E7451D0000C36A /* AsyncTesting.swift */; };
 		681DFEA528E747470000C36A /* AsyncExpectation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 681DFE7028E7451D0000C36A /* AsyncExpectation.swift */; };
 		681DFEA628E747470000C36A /* XCTestCase+AsyncTesting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 681DFE7128E7451D0000C36A /* XCTestCase+AsyncTesting.swift */; };
+		7DC0B889FE23FD51F35C495C /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94BC30704A709923725E361F /* Post.swift */; };
 		970333EB295CD6F60019981E /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970333E7295CD6F60019981E /* Post.swift */; };
 		970333EC295CD6F60019981E /* PostStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970333E8295CD6F60019981E /* PostStatus.swift */; };
 		970333ED295CD6F60019981E /* AmplifyModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970333E9295CD6F60019981E /* AmplifyModels.swift */; };
@@ -355,6 +358,9 @@
 		97D4946D2981AF9900397C75 /* AuthSignInHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D4946B2981AF9900397C75 /* AuthSignInHelper.swift */; };
 		97D4946E2981AF9900397C75 /* TestConfigHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D4946C2981AF9900397C75 /* TestConfigHelper.swift */; };
 		A28E3D443EA4878CB2FCC1CB /* amplifyconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = FA65BC850717F8B8406A266A /* amplifyconfiguration.json */; };
+		BC3EA39E9983FA18EE5A41B4 /* AmplifyModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB6687F2696F393F1E6588A /* AmplifyModels.swift */; };
+		BD3AF93F637472E2A8E1B2D7 /* Comment+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F32B681A3B84D8FDCB15E4 /* Comment+Schema.swift */; };
+		C7B20B5AD2C2D4C7734FADB9 /* Post+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0102A344E154154304C28C80 /* Post+Schema.swift */; };
 		D8D532322B8CEC6A001F60BC /* GraphQLModelBasedTests-amplifyconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = D8D532312B8CEC6A001F60BC /* GraphQLModelBasedTests-amplifyconfiguration.json */; };
 		D8D532332B8CEC87001F60BC /* GraphQLModelBasedTests-amplifyconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = D8D532312B8CEC6A001F60BC /* GraphQLModelBasedTests-amplifyconfiguration.json */; };
 /* End PBXBuildFile section */
@@ -447,6 +453,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0102A344E154154304C28C80 /* Post+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; lastKnownFileType = sourcecode.swift; name = "Post+Schema.swift"; path = "amplify/generated/models/Post+Schema.swift"; sourceTree = "<group>"; };
 		0FE64695C814DE1FA6DC8391 /* awsconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = awsconfiguration.json; sourceTree = "<group>"; };
 		21262523289ABB0C003788E3 /* TestConfigHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestConfigHelper.swift; sourceTree = "<group>"; };
 		21262702289ABFE4003788E3 /* ScalarContainer+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ScalarContainer+Schema.swift"; sourceTree = "<group>"; };
@@ -688,6 +695,7 @@
 		681DFE6F28E7451D0000C36A /* AsyncTesting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncTesting.swift; sourceTree = "<group>"; };
 		681DFE7028E7451D0000C36A /* AsyncExpectation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncExpectation.swift; sourceTree = "<group>"; };
 		681DFE7128E7451D0000C36A /* XCTestCase+AsyncTesting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XCTestCase+AsyncTesting.swift"; sourceTree = "<group>"; };
+		94BC30704A709923725E361F /* Post.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; lastKnownFileType = sourcecode.swift; name = Post.swift; path = amplify/generated/models/Post.swift; sourceTree = "<group>"; };
 		970333E7295CD6F60019981E /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		970333E8295CD6F60019981E /* PostStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostStatus.swift; sourceTree = "<group>"; };
 		970333E9295CD6F60019981E /* AmplifyModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AmplifyModels.swift; sourceTree = "<group>"; };
@@ -697,7 +705,11 @@
 		97914C1D29558AF2002000EA /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		97D4946B2981AF9900397C75 /* AuthSignInHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthSignInHelper.swift; sourceTree = "<group>"; };
 		97D4946C2981AF9900397C75 /* TestConfigHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestConfigHelper.swift; sourceTree = "<group>"; };
+		9CB6687F2696F393F1E6588A /* AmplifyModels.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; lastKnownFileType = sourcecode.swift; name = AmplifyModels.swift; path = amplify/generated/models/AmplifyModels.swift; sourceTree = "<group>"; };
+		C9F32B681A3B84D8FDCB15E4 /* Comment+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; lastKnownFileType = sourcecode.swift; name = "Comment+Schema.swift"; path = "amplify/generated/models/Comment+Schema.swift"; sourceTree = "<group>"; };
 		D8D532312B8CEC6A001F60BC /* GraphQLModelBasedTests-amplifyconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "GraphQLModelBasedTests-amplifyconfiguration.json"; sourceTree = "<group>"; };
+		E4544A40DDCB17855E6BAC74 /* PostStatus.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; lastKnownFileType = sourcecode.swift; name = PostStatus.swift; path = amplify/generated/models/PostStatus.swift; sourceTree = "<group>"; };
+		E9AED3573FB1EAB396EB45BD /* Comment.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; lastKnownFileType = sourcecode.swift; name = Comment.swift; path = amplify/generated/models/Comment.swift; sourceTree = "<group>"; };
 		FA65BC850717F8B8406A266A /* amplifyconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = amplifyconfiguration.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -820,6 +832,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		11DC85434D3527899EA6DFE1 /* AmplifyModels */ = {
+			isa = PBXGroup;
+			children = (
+				9CB6687F2696F393F1E6588A /* AmplifyModels.swift */,
+				C9F32B681A3B84D8FDCB15E4 /* Comment+Schema.swift */,
+				E9AED3573FB1EAB396EB45BD /* Comment.swift */,
+				0102A344E154154304C28C80 /* Post+Schema.swift */,
+				94BC30704A709923725E361F /* Post.swift */,
+				E4544A40DDCB17855E6BAC74 /* PostStatus.swift */,
+			);
+			name = AmplifyModels;
+			sourceTree = "<group>";
+		};
 		212626CA289ABC79003788E3 /* Base */ = {
 			isa = PBXGroup;
 			children = (
@@ -1174,6 +1199,7 @@
 				21E73E6C28898D7900D7DB7E /* Products */,
 				21698BD728899EBB004BD994 /* Frameworks */,
 				39AC502FEC3F482AF1545BE2 /* AmplifyConfig */,
+				11DC85434D3527899EA6DFE1 /* AmplifyModels */,
 			);
 			sourceTree = "<group>";
 		};
@@ -2257,6 +2283,12 @@
 				21698C092889B173004BD994 /* TestCommonConstants.swift in Sources */,
 				213DBC8928A700E000B30280 /* SubscriptionView.swift in Sources */,
 				21E73E6F28898D7900D7DB7E /* APIHostAppApp.swift in Sources */,
+				BC3EA39E9983FA18EE5A41B4 /* AmplifyModels.swift in Sources */,
+				BD3AF93F637472E2A8E1B2D7 /* Comment+Schema.swift in Sources */,
+				60AE805EE43CB3956A727263 /* Comment.swift in Sources */,
+				C7B20B5AD2C2D4C7734FADB9 /* Post+Schema.swift in Sources */,
+				7DC0B889FE23FD51F35C495C /* Post.swift in Sources */,
+				20CE7D95A8D92B6E3DFE42B0 /* PostStatus.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -54,17 +54,20 @@ class GraphQLModelBasedTests: XCTestCase {
         await Amplify.reset()
     }
     
-    // HERE
+    // HERE HERE - to działa ale chyba trzeba zrobic osobny fiolder dla testów TransformerV2 tak samo jako w DataStore
     func testSubscribeToSyncableModels() async throws {
-        let uuid = UUID().uuidString
-        let testMethodName = String("\(#function)".dropLast(2))
-        let title = testMethodName + "Title"
+        
+        let incorrectTitle = "other_title"
+        let incorrectPost1Id = UUID().uuidString
+        
+        let correctTitle = "correct"
+        let correctPost1Id = UUID().uuidString
+        let correctPost2Id = UUID().uuidString
         
         let connectedInvoked = expectation(description: "Connection established")
-        let disconnectedInvoked = expectation(description: "Connection disconnected")
-        let completedInvoked = expectation(description: "Completed invoked")
-        let progressInvoked = expectation(description: "Progress invoked")
-        let request = GraphQLRequest<MutationSyncResult>.subscription(to: Post.self, where: QueryPredicateGroup(type: .and, predicates: [Post.keys.rating > 0]), subscriptionType: .onCreate)
+        let onCreateCorrectPost1 = expectation(description: "Receioved onCreate for correctPost1")
+        let onCreateCorrectPost2 = expectation(description: "Receioved onCreate for correctPost2")
+        let request = GraphQLRequest<MutationSyncResult>.subscription(to: Post.self, where: Post.keys.title.eq(correctTitle), subscriptionType: .onCreate)
         
         let subscription = Amplify.API.subscribe(request: request)
         Task {
@@ -73,25 +76,31 @@ class GraphQLModelBasedTests: XCTestCase {
                     switch subscriptionEvent {
                     case .connection(let state):
                         switch state {
-                        case .connecting:
-                            break
                         case .connected:
                             connectedInvoked.fulfill()
-                        case .disconnected:
-                            disconnectedInvoked.fulfill()
+                            
+                        case .connecting, .disconnected:
+                            break
                         }
+                        
                     case .data(let graphQLResponse):
                         switch graphQLResponse {
                         case .success(let mutationSync):
-                            XCTAssertEqual(mutationSync.model["title"] as? String, title)
-                            XCTAssertEqual(mutationSync.syncMetadata.version, 1)
+                            if mutationSync.model.id == correctPost1Id {
+                                onCreateCorrectPost1.fulfill()
+                                
+                            } else if mutationSync.model.id == correctPost2Id {
+                                onCreateCorrectPost2.fulfill()
+                                
+                            } else if mutationSync.model.id == incorrectPost1Id {
+                                XCTFail("We should not receive onCreate for filtered out model!")
+                            }
+                            
                         case .failure(let error):
                             XCTFail(error.errorDescription)
                         }
-                        progressInvoked.fulfill()
                     }
                 }
-                completedInvoked.fulfill()
                 
             } catch {
                 XCTFail("Unexpected subscription failure: \(error)")
@@ -100,15 +109,22 @@ class GraphQLModelBasedTests: XCTestCase {
         
         await fulfillment(of: [connectedInvoked], timeout: TestCommonConstants.networkTimeout)
         
-        guard try await createPost(id: uuid, title: title) != nil else {
-            XCTFail("Failed to create post")
-            return
+        guard try await createPost(id: incorrectPost1Id, title: incorrectTitle) != nil else {
+            XCTFail("Failed to create post"); return
         }
         
-        await fulfillment(of: [progressInvoked], timeout: TestCommonConstants.networkTimeout)
+        guard try await createPost(id: correctPost1Id, title: correctTitle) != nil else {
+            XCTFail("Failed to create post"); return
+        }
+        
+        guard try await createPost(id: correctPost2Id, title: correctTitle) != nil else {
+            XCTFail("Failed to create post"); return
+        }
+        
+        await fulfillment(of: [onCreateCorrectPost1], timeout: TestCommonConstants.networkTimeout)
+        await fulfillment(of: [onCreateCorrectPost2], timeout: TestCommonConstants.networkTimeout)
+        
         subscription.cancel()
-        await fulfillment(of: [disconnectedInvoked, completedInvoked], timeout: TestCommonConstants.networkTimeout)
-        XCTAssertTrue(subscription.isCancelled)
     }
     
     func testQuerySinglePostWithModel() async throws {
