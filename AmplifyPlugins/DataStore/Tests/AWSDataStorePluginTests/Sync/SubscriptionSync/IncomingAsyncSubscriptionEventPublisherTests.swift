@@ -106,4 +106,53 @@ final class IncomingAsyncSubscriptionEventPublisherTests: XCTestCase {
         XCTAssertEqual(expectedOrder.get(), actualOrder.get())
         sink.cancel()
     }
+    
+    func testBaseQueryWithSyncExpressionConstantAll() async throws {
+        
+        DataStoreConfiguration.custom()
+        let expectedEvents = expectation(description: "Expected number of ")
+        
+        let responder = SubscribeRequestListenerResponder<MutationSync<AnyModel>> {request, valueListener, _ in
+            if request.document.contains("onUpdateMockSynced") {
+                print()
+            }
+            HERE TUTUAJ TEST
+            return nil
+        }
+
+        apiPlugin.responders[.subscribeRequestListener] = responder
+        
+        let asyncEvents = await IncomingAsyncSubscriptionEventPublisher(
+            modelSchema: Post.schema,
+            api: apiPlugin,
+            modelPredicate: QueryPredicateGroup(type: .or, predicates: [
+                Post.keys.id.eq("a"),
+                Post.keys.id.eq("b")
+            ]),
+            auth: nil,
+            authModeStrategy: AWSDefaultAuthModeStrategy(),
+            awsAuthService: nil)
+        let mapper = IncomingAsyncSubscriptionEventToAnyModelMapper()
+
+        asyncEvents.subscribe(subscriber: mapper)
+        let sink = mapper
+            .publisher
+            .sink(
+                receiveCompletion: { _ in },
+                receiveValue: { event in
+                    switch event {
+                    case .payload(let mutationSync):
+                        print()
+//                        actualOrder.append(mutationSync.syncMetadata.modelId)
+                    default:
+                        break
+                    }
+                    print()
+//                    expectedEvents.fulfill()
+                }
+            )
+        
+        await fulfillment(of: [expectedEvents], timeout: 2)
+        sink.cancel()
+    }
 }
