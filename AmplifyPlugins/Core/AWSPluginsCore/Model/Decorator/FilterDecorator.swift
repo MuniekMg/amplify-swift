@@ -38,6 +38,7 @@ public struct FilterDecorator: ModelBasedGraphQLDocumentDecorator {
             inputs["filter"] = GraphQLDocumentInput(type: "Model\(modelName)FilterInput",
                 value: .object(filter))
         } else if case .subscription = document.operationType {
+            // TODO: - ONLY FOR V2?
             inputs["filter"] = GraphQLDocumentInput(type: "ModelSubscription\(modelName)FilterInput",
                 value: .object(filter))
         }
