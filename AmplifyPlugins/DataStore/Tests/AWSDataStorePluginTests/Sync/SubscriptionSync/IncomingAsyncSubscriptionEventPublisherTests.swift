@@ -107,52 +107,72 @@ final class IncomingAsyncSubscriptionEventPublisherTests: XCTestCase {
         sink.cancel()
     }
     
-    func testBaseQueryWithSyncExpressionConstantAll() async throws {
+    func testUseModelPredicateAsSubscribtionsFilter() async throws {
         
-        DataStoreConfiguration.custom()
-        let expectedEvents = expectation(description: "Expected number of ")
+        let id1 = UUID().uuidString
+        let id2 = UUID().uuidString
+        
+        let correctFilterOnCreate = expectation(description: "Correct filter in onCreate request")
+        let correctFilterOnUpdate = expectation(description: "Correct filter in onUpdate request")
+        let correctFilterOnDelete = expectation(description: "Correct filter in onDelete request")
+        
+        func validateVariables(_ variables: [String: Any]?) -> Bool {
+            guard let variables = variables else {
+                XCTFail("The request doesn't contain variables")
+                return false
+            }
+            
+            guard
+                let filter = variables["filter"] as? [String: [[String: [String: String]]]],
+                filter == ["or": [
+                    ["id": ["eq": id1]],
+                    ["id": ["eq": id2]]
+                ]]
+                    
+            else {
+                XCTFail("The document variables property doesn't contain a valid filter")
+                return false
+            }
+
+            return true
+        }
         
         let responder = SubscribeRequestListenerResponder<MutationSync<AnyModel>> {request, valueListener, _ in
-            if request.document.contains("onUpdateMockSynced") {
-                print()
+            if request.document.contains("onCreatePost") {
+                if validateVariables(request.variables) {
+                    correctFilterOnCreate.fulfill()
+                }
+                
+            } else if request.document.contains("onUpdatePost") {
+                if validateVariables(request.variables) {
+                    correctFilterOnUpdate.fulfill()
+                }
+                
+            } else if request.document.contains("onDeletePost") {
+                if validateVariables(request.variables) {
+                    correctFilterOnDelete.fulfill()
+                }
+                
+            } else {
+                XCTFail("Unexpected request: \(request.document)")
             }
-            HERE TUTUAJ TEST
+            
             return nil
         }
 
         apiPlugin.responders[.subscribeRequestListener] = responder
         
-        let asyncEvents = await IncomingAsyncSubscriptionEventPublisher(
+        _ = await IncomingAsyncSubscriptionEventPublisher(
             modelSchema: Post.schema,
             api: apiPlugin,
             modelPredicate: QueryPredicateGroup(type: .or, predicates: [
-                Post.keys.id.eq("a"),
-                Post.keys.id.eq("b")
+                Post.keys.id.eq(id1),
+                Post.keys.id.eq(id2)
             ]),
             auth: nil,
             authModeStrategy: AWSDefaultAuthModeStrategy(),
             awsAuthService: nil)
-        let mapper = IncomingAsyncSubscriptionEventToAnyModelMapper()
 
-        asyncEvents.subscribe(subscriber: mapper)
-        let sink = mapper
-            .publisher
-            .sink(
-                receiveCompletion: { _ in },
-                receiveValue: { event in
-                    switch event {
-                    case .payload(let mutationSync):
-                        print()
-//                        actualOrder.append(mutationSync.syncMetadata.modelId)
-                    default:
-                        break
-                    }
-                    print()
-//                    expectedEvents.fulfill()
-                }
-            )
-        
-        await fulfillment(of: [expectedEvents], timeout: 2)
-        sink.cancel()
+        await fulfillment(of: [correctFilterOnCreate, correctFilterOnUpdate, correctFilterOnDelete], timeout: 1)
     }
 }

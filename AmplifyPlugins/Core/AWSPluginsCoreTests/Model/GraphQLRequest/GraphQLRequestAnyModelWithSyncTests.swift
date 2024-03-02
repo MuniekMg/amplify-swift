@@ -16,7 +16,7 @@ class GraphQLRequestAnyModelWithSyncTests: XCTestCase {
     override func setUp() {
         ModelRegistry.register(modelType: Comment.self)
         ModelRegistry.register(modelType: Post.self)
-
+        ModelRegistry.register(modelType: ModelWithOwnerField.self)
     }
 
     override func tearDown() {
@@ -469,6 +469,71 @@ class GraphQLRequestAnyModelWithSyncTests: XCTestCase {
             filter == ["and": [["rating": ["gt": 0]]]]
         else {
             XCTFail("The document variables property doesn't contain a valid filter")
+            return
+        }
+    }
+    
+    func testCreateSubscriptionWithFilterAndClaimsGraphQLRequest() throws {
+        let modelType = ModelWithOwnerField.self as Model.Type
+        let modelSchema = modelType.schema
+        let author = "MuniekMg"
+        let username = "user1"
+        let predicate: QueryPredicate = ModelWithOwnerField.keys.author.eq(author)
+        let filter = QueryPredicateGroup(type: .and, predicates: [predicate]).graphQLFilter(for: modelSchema)
+        let claims = [
+            "username": username,
+            "sub": "123e4567-dead-beef-a456-426614174000"
+        ] as IdentityClaimsDictionary
+        
+        var documentBuilder = ModelBasedGraphQLDocumentBuilder(modelSchema: modelSchema,
+                                                               operationType: .subscription)
+        
+        documentBuilder.add(decorator: DirectiveNameDecorator(type: .onCreate))
+        documentBuilder.add(decorator: FilterDecorator(filter: filter))
+        documentBuilder.add(decorator: ConflictResolutionDecorator(graphQLType: .subscription))
+        documentBuilder.add(decorator: AuthRuleDecorator(.subscription(.onCreate, claims)))
+        let document = documentBuilder.build()
+        
+        let documentStringValue = """
+        subscription OnCreateModelWithOwnerField($author: String!, $filter: ModelSubscriptionModelWithOwnerFieldFilterInput) {
+          onCreateModelWithOwnerField(author: $author, filter: $filter) {
+            id
+            author
+            content
+            __typename
+            _version
+            _deleted
+            _lastChangedAt
+          }
+        }
+        """
+        let request = GraphQLRequest<MutationSyncResult>.subscription(to: modelSchema,
+                                                                      where: predicate,
+                                                                      subscriptionType: .onCreate,
+                                                                      claims: claims)
+
+        XCTAssertEqual(document.stringValue, request.document)
+        XCTAssertEqual(documentStringValue, request.document)
+        XCTAssert(request.responseType == MutationSyncResult.self)
+        
+        guard let variables = request.variables else {
+            XCTFail("The request doesn't contain variables")
+            return
+        }
+        
+        guard
+            let filter = variables["filter"] as? [String: [[String: [String: String]]]],
+            filter == ["and": [["author": ["eq": author]]]]
+        else {
+            XCTFail("The document variables property doesn't contain a valid filter")
+            return
+        }
+        
+        guard
+            let author = variables["author"] as? String,
+            author == username
+        else {
+            XCTFail("The document variables property doesn't contain a valid claims")
             return
         }
     }
