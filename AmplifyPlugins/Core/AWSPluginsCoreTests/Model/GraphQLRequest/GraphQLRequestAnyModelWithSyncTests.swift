@@ -419,4 +419,57 @@ class GraphQLRequestAnyModelWithSyncTests: XCTestCase {
         }
         XCTAssertEqual(conditionValue["eq"], "myTitle")
     }
+    
+    func testCreateSubscriptionWithFilterGraphQLRequest() throws {
+        let modelType = Post.self as Model.Type
+        let modelSchema = modelType.schema
+        let predicate: QueryPredicate = Post.keys.rating > 0
+        let filter = QueryPredicateGroup(type: .and, predicates: [predicate]).graphQLFilter(for: modelSchema)
+        
+        var documentBuilder = ModelBasedGraphQLDocumentBuilder(modelSchema: modelSchema,
+                                                               operationType: .subscription)
+        
+        documentBuilder.add(decorator: DirectiveNameDecorator(type: .onCreate))
+        documentBuilder.add(decorator: FilterDecorator(filter: filter))
+        documentBuilder.add(decorator: ConflictResolutionDecorator(graphQLType: .subscription))
+        let document = documentBuilder.build()
+        
+        let documentStringValue = """
+        subscription OnCreatePost($filter: ModelSubscriptionPostFilterInput) {
+          onCreatePost(filter: $filter) {
+            id
+            content
+            createdAt
+            draft
+            rating
+            status
+            title
+            updatedAt
+            __typename
+            _version
+            _deleted
+            _lastChangedAt
+          }
+        }
+        """
+        let request = GraphQLRequest<MutationSyncResult>.subscription(to: modelSchema,
+                                                                      where: predicate,
+                                                                      subscriptionType: .onCreate)
+
+        XCTAssertEqual(document.stringValue, request.document)
+        XCTAssertEqual(documentStringValue, request.document)
+        XCTAssert(request.responseType == MutationSyncResult.self)
+        
+        guard let variables = request.variables else {
+            XCTFail("The request doesn't contain variables")
+            return
+        }
+        guard 
+            let filter = variables["filter"] as? [String: [[String: [String: Int]]]],
+            filter == ["and": [["rating": ["gt": 0]]]]
+        else {
+            XCTFail("The document variables property doesn't contain a valid filter")
+            return
+        }
+    }
 }
