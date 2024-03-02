@@ -55,6 +55,8 @@ class GraphQLModelBasedTests: XCTestCase {
     }
     
     // HERE HERE - to działa ale chyba trzeba zrobic osobny fiolder dla testów TransformerV2 tak samo jako w DataStore
+    // Trzeba zrobuic nowy folder  "AWSAPIPluginV2Tests i tam nową klase "GraphQLSyncBased" i tam dac ten test!
+    // BTW  CZY NA PEWNO TREBA DAWAC CONFLICT RESOLUTION ZEBY TESTOWAC ONCREATE ITP?"
     func testSubscribeToSyncableModels() async throws {
         
         let incorrectTitle = "other_title"
