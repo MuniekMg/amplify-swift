@@ -54,6 +54,36 @@ class GraphQLModelBasedTests: XCTestCase {
         await Amplify.reset()
     }
     
+    /*
+     input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
+
+     enum PostStatus {
+         PRIVATE
+         DRAFT
+         PUBLISHED
+     }
+
+     type Post @model @auth(rules: [{allow: public}]) {
+         id: ID!
+         title: String!
+         content: String!
+         createdAt: AWSDateTime!
+         updatedAt: AWSDateTime
+         draft: Boolean
+         rating: Float
+         status: PostStatus
+         comments: [Comment]
+     }
+
+     type Comment @model @auth(rules: [{allow: public}]) {
+         id: ID!
+         content: String!
+         createdAt: AWSDateTime!
+         post: Post
+     }
+
+     */
+    
     // HERE HERE - to działa ale chyba trzeba zrobic osobny fiolder dla testów TransformerV2 tak samo jako w DataStore
     // Trzeba zrobuic nowy folder  "AWSAPIPluginV2Tests i tam nową klase "GraphQLSyncBased" i tam dac ten test!
     // BTW  CZY NA PEWNO TREBA DAWAC CONFLICT RESOLUTION ZEBY TESTOWAC ONCREATE ITP?"

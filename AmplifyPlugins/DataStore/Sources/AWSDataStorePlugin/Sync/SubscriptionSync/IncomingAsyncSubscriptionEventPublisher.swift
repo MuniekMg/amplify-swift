@@ -67,6 +67,8 @@ final class IncomingAsyncSubscriptionEventPublisher: AmplifyCancellable {
         connectionStatusQueue.maxConcurrentOperationCount = 1
         connectionStatusQueue.isSuspended = false
 
+        // tutaj trzeba sie jakos dowiedzieć czy to jest v1 czy v2!
+        
         let incomingSubscriptionEvents = PassthroughSubject<Event, DataStoreError>()
         self.incomingSubscriptionEvents = incomingSubscriptionEvents
         self.awsAuthService = awsAuthService ?? AWSAuthService()
